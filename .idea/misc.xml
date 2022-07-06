@@ -12,10 +12,6 @@
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/auth-client.ts" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="1490" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/Warehouse/index.tsx" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
           <option name="caretOffset" value="1029" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/Warehouse/TableBody.tsx" />
         </OpenedFileInfo>
@@ -26,6 +22,10 @@
         <OpenedFileInfo>
           <option name="caretOffset" value="98" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/Body/index.tsx" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="1490" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/Warehouse/index.tsx" />
         </OpenedFileInfo>
       </list>
     </option>

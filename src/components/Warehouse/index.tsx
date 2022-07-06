@@ -1,8 +1,8 @@
 import TableBody from './TableBody';
 import TableHeader from './TableHeader';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import IItem from "../../types/item.type";
-import { DataGrid, GridRowsProp, GridColDef } from '@material-ui/data-grid';
+import {DataGrid, GridRowsProp, GridColDef, GridRowId, GridRowParams} from '@material-ui/data-grid';
 import ApiClient from "../../helpers/api-client";
 
 
@@ -25,10 +25,10 @@ const ItemsTable = () => {
         keywords: ['test', 'item', '2']
     }]);
     const cols: GridColDef[] = [
-        {field: 'name', headerName: 'Nazwa', width: 300},
-        {field: 'category', headerName: 'Kategoria', width: 300},
-        {field: 'value', headerName: 'Wartość', width: 300},
-        {field: 'warehouse', headerName: 'Magazyn', width: 300},
+        {field: 'name', headerName: 'Nazwa', width: 350},
+        {field: 'category', headerName: 'Kategoria', width: 250},
+        {field: 'value', headerName: 'Wartość', width: 150},
+        {field: 'warehouse', headerName: 'Magazyn', width: 250},
     ];
 
     useEffect(() => {
@@ -38,11 +38,16 @@ const ItemsTable = () => {
         });
     }, []);
 
+    const openItemModal = (row: GridRowParams) => {
+        console.log(row);
+    }
+
     return (
       <>
         <DataGrid
             rows={items}
             columns={cols}
+            onRowDoubleClick={e => openItemModal(e)}
 
           />
       </>
