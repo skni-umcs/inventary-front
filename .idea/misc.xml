@@ -4,32 +4,12 @@
     <option name="openedFilesInfos">
       <list>
         <OpenedFileInfo>
-          <option name="caretOffset" value="760" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/App.tsx" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="180" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/types/item.type.ts" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="27" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/package.json" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="552" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/LoginPage/styles.ts" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="0" />
+          <option name="caretOffset" value="881" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/auth-client.ts" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="1926" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/api-client.ts" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="580" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/LoginPage/index.tsx" />
+          <option name="caretOffset" value="468" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/App.tsx" />
         </OpenedFileInfo>
       </list>
     </option>
