@@ -14,10 +14,12 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <>
-        <Navbar />
         <ToastContainer />
-        <Routes>
-            {AuthClient.getJwt() ? (
+        {AuthClient.checkValid() ? (
+	    <Navbar />
+	) : (<></>)}
+	<Routes>
+            {AuthClient.checkValid() ? (
                 <>
                     <Route path="/" element={<Body />} />
                     <Route path="/item/:id" element={<ItemPage />} />
