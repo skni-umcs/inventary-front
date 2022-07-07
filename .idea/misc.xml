@@ -4,28 +4,28 @@
     <option name="openedFilesInfos">
       <list>
         <OpenedFileInfo>
-          <option name="caretOffset" value="468" />
+          <option name="caretOffset" value="32" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/ItemModal/itemModal.type.ts" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="1362" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/ItemModal/itemModal.style.ts" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="32" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/types/item.type.ts" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="1495" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/ItemModal/index.tsx" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="898" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/App.tsx" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="881" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/auth-client.ts" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="1029" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/Warehouse/TableBody.tsx" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
           <option name="caretOffset" value="0" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/index.tsx" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="98" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/Body/index.tsx" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="1490" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/Warehouse/index.tsx" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/LoginPage/index.tsx" />
         </OpenedFileInfo>
       </list>
     </option>
