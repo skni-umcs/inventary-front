@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {ItemModalType} from "./itemModal.type";
-import {Container, Paper, Box, Typography, IconButton, Input, TextField} from "@material-ui/core";
+import {Container, Paper, Box, Typography, IconButton, Input, TextField, Button} from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import useStyles from "./itemModal.style";
 import Draggable from 'react-draggable';
@@ -74,6 +74,10 @@ const ItemModal = (param: ItemModalType) => {
                                     type={'text'}
                                     onChange={e => setItemValue('keywords', e.target.value.split(','))}/>
                             </Box>
+                        </Box>
+                        <Box className={classes.footerRow}>
+                            <Button variant={'contained'} color={'secondary'}>Odrzuć</Button>
+                            <Button variant={'contained'} color={'primary'} style={{marginLeft: '12px'}}>Zatwierdź</Button>
                         </Box>
                     </Box>
                 </Paper>

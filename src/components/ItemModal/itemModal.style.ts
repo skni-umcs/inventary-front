@@ -47,6 +47,14 @@ const useStyles = makeStyles((theme: Theme) =>
             margin: 'auto',
             marginBottom: '5%',
         },
+        footerRow: {
+            width: '90%',
+            display: 'flex',
+            justifyContent: 'flex-end',
+            alignItems: 'flex-end',
+            height: '100%',
+            marginBottom: '3%',
+        },
         infoContainer: {
             width: '40%',
             height: '100%',
