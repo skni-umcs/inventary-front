@@ -4,32 +4,36 @@
     <option name="openedFilesInfos">
       <list>
         <OpenedFileInfo>
-          <option name="caretOffset" value="32" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/ItemModal/itemModal.type.ts" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="2" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/ItemModal/itemModal.style.ts" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="32" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/types/item.type.ts" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="898" />
+          <option name="caretOffset" value="968" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/App.tsx" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="643" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/ItemModal/index.tsx" />
+          <option name="caretOffset" value="115" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/.gitignore" />
         </OpenedFileInfo>
         <OpenedFileInfo>
           <option name="caretOffset" value="32" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/.env" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="430" />
+          <option name="caretOffset" value="1086" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/api-client.ts" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="534" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/ItemModal/index.tsx" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="205" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/types/item.type.ts" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="1639" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/Warehouse/index.tsx" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="881" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/auth-client.ts" />
         </OpenedFileInfo>
       </list>
     </option>

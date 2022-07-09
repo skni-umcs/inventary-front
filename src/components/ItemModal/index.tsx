@@ -1,21 +1,46 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {ItemModalType} from "./itemModal.type";
 import {Container, Paper, Box, Typography, IconButton, Input, TextField, Button} from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import useStyles from "./itemModal.style";
 import Draggable from 'react-draggable';
 import IItem from "../../types/item.type";
+import ApiClient from '../../helpers/api-client';
 
 const ItemModal = (param: ItemModalType) => {
 
-    const [item, setItem] = useState<IItem>();
+    const [item, setItem] = useState<IItem>(
+        {
+            id: -1,
+            name: '',
+            category: '',
+            value: '',
+            warehouse: '',
+            description: '',
+            keywords: []
+        }
+    );
 
     const setItemValue = (prop: string, value: string | string[]) => {
-        let tItem = item;
-        //@ts-ignore
+        let tItem: IItem = item;
         tItem[prop] = value;
         setItem(tItem);
     }
+
+    useEffect(() => {
+        if(param.itemId === undefined) return;
+        ApiClient.getItemById(param.itemId)
+            .then(res => {
+                try {
+                    setItem(res.data)
+                } catch(e) {
+                    console.error(e)
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            })
+    }, [])
 
     const classes = useStyles();
 
