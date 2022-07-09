@@ -1,6 +1,6 @@
 import axios from 'axios';
 import AuthClient from './auth-client';
-const api_url = process.env.API_URL ? process.env.API_URL : 'http://localhost:8555';
+const api_url = process.env.REACT_APP_ENV == 'developement' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_PROD_API_URL;
 
 const getConfig = () => {
     return {

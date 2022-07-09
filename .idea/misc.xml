@@ -4,6 +4,10 @@
     <option name="openedFilesInfos">
       <list>
         <OpenedFileInfo>
+          <option name="caretOffset" value="496" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/auth-client.ts" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
           <option name="caretOffset" value="968" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/App.tsx" />
         </OpenedFileInfo>
@@ -12,12 +16,8 @@
           <option name="fileUrl" value="file://$PROJECT_DIR$/.gitignore" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="32" />
+          <option name="caretOffset" value="83" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/.env" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
-          <option name="caretOffset" value="1086" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/api-client.ts" />
         </OpenedFileInfo>
         <OpenedFileInfo>
           <option name="caretOffset" value="534" />
@@ -32,8 +32,8 @@
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/Warehouse/index.tsx" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="881" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/auth-client.ts" />
+          <option name="caretOffset" value="162" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/api-client.ts" />
         </OpenedFileInfo>
       </list>
     </option>
