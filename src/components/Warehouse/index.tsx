@@ -5,10 +5,8 @@ import IItem from "../../types/item.type";
 import {DataGrid, GridRowsProp, GridColDef, GridRowId, GridRowParams} from '@material-ui/data-grid';
 import ApiClient from "../../helpers/api-client";
 import ItemModal from "../ItemModal";
-
-
-const ItemsTable = () => {
-    const [items, setItems] = useState<IItem[]>([{
+/*
+{
         id: 0,
         name: 'test item 1',
         category: "Test items",
@@ -24,7 +22,11 @@ const ItemsTable = () => {
         warehouse: "Test warehouse",
         description: 'Test item 2 description',
         keywords: ['test', 'item', '2']
-    }]);
+    }
+ */
+
+const ItemsTable = () => {
+    const [items, setItems] = useState<IItem[]>([]);
 
     const [itemModalVisible, setItemModalVisible] = useState(false);
     const [itemId, setItemId] = useState<number|undefined>(undefined);
