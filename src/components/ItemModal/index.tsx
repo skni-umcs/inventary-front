@@ -36,7 +36,6 @@ const ItemModal = (prop: ItemModalType) => {
         ApiClient.getItemById(prop.itemId)
             .then(res => {
                 try {
-                    // res.keywords = res.keywords.split(';');
                     setItem(res);
                 } catch(e) {
                     console.error(e)

@@ -1,15 +1,13 @@
 import axios from 'axios';
 import AuthClient from './auth-client';
-import utf8 from 'utf8'
+
 const api_url = process.env.REACT_APP_ENV == 'developement' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_PROD_API_URL;
 
 const getConfig = () => {
     return {
         headers: {
             'Authorization': `Bearer ${AuthClient.getJwt()}`,
-            'Accept': '*/*',
             'Accept-Language': 'pl-PL',
-            // 'Accept-Encoding': 'gzip,deflate,br',
             'Pzdr': ':>'
         }
     }
@@ -31,7 +29,7 @@ export default {
                 if(!res.data){
                     return [];
                 }
-                return JSON.parse(utf8.encode(JSON.stringify(res.data)));
+                return res.data;
             })
             .catch(checkForErr);
     },
