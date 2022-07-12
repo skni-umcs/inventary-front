@@ -4,12 +4,32 @@
     <option name="openedFilesInfos">
       <list>
         <OpenedFileInfo>
-          <option name="caretOffset" value="881" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/auth-client.ts" />
+          <option name="caretOffset" value="714" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/ItemModal/TagInput.tsx" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="468" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/App.tsx" />
+          <option name="caretOffset" value="24" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/.env" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="1272" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/Warehouse/index.tsx" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="30" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/public/index.html" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="66" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/api-client.ts" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="775" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/package.json" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="1438" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/ItemModal/index.tsx" />
         </OpenedFileInfo>
       </list>
     </option>

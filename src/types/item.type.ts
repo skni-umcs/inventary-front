@@ -5,5 +5,6 @@ export default interface IItem {
     value: string,
     warehouse: string,
     description: string,
-    keywords: string[]
+    keywords: string[],
+    [key: string]: any,
 }

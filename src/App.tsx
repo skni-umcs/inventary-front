@@ -18,16 +18,16 @@ function App() {
         {AuthClient.checkValid() ? (
 	    <Navbar />
 	) : (<></>)}
-	<Routes>
+        <Routes>
             {AuthClient.checkValid() ? (
                 <>
-                    <Route path="/" element={<Body />} />
-                    <Route path="/item/:id" element={<ItemPage />} />
+                    <Route path="/" element={<Body/>}/>
+                    <Route path="/item/:id" element={<ItemPage/>}/>
                 </>
             ) : (
-                <Route path="/" element={<LoginPage />} />
+                <Route path="/" element={<LoginPage/>}/>
             )}
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<NotFound/>}/>
         </Routes>
     </>
   );

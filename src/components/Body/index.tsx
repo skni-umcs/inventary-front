@@ -1,17 +1,12 @@
 import React from 'react';
-import {Container, Table, TableBody} from "@material-ui/core";
-import {TableBody as ItemsBody, TableHeader} from '../Warehouse';
+import {Container} from "@material-ui/core";
+import {ItemsTable} from '../Warehouse';
 
 const Body = () => {
   return (
     <>
-        <Container maxWidth="lg">
-            <Table>
-                <TableBody>
-                    <TableHeader />
-                    <ItemsBody />
-                </TableBody>
-                </Table>
+        <Container maxWidth="lg" style={{marginTop: '1%', height: '80vh'}}>
+            <ItemsTable />
         </Container>
     </>
   );

@@ -9,8 +9,9 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import ApiClient from "../../helpers/api-client";
 import {toast} from "react-toastify";
-import useStyles from "./styles";
-import {szopy} from "./styles";
+import useStyles from "./loginPage.style";
+import {szopy} from "./loginPage.style";
+import AuthClient from "../../helpers/auth-client";
 
 const LoginPage = () => {
 
@@ -34,6 +35,7 @@ const LoginPage = () => {
                 toast.error("Niepoprawna nazwa użytkownika lub hasło");
                 return;
             } else {
+                AuthClient.setJwt('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjU3MTk2MzIzLCJuYmYiOjE2NTcxOTYzMjMsImp0aSI6ImQ1NGNiOWVkLTM4MmUtNGY2ZS04Nzg2LWUxZjU3YzA1NTA1NiIsImV4cCI6MTY1NzE5NzIyMywidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.a7rs5miPibJIoi4FUwS5W-P9WBo2byFnN9lqDXB8Fa4');
                 console.log(err);
                 toast.error("Wystąpił nieoczewiany błąd. Sprawdź konsolę deweloperską.");
             }
