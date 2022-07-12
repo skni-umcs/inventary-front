@@ -4,10 +4,6 @@
     <option name="openedFilesInfos">
       <list>
         <OpenedFileInfo>
-          <option name="caretOffset" value="1124" />
-          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/ItemModal/index.tsx" />
-        </OpenedFileInfo>
-        <OpenedFileInfo>
           <option name="caretOffset" value="714" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/ItemModal/TagInput.tsx" />
         </OpenedFileInfo>
@@ -28,8 +24,12 @@
           <option name="fileUrl" value="file://$PROJECT_DIR$/src/helpers/api-client.ts" />
         </OpenedFileInfo>
         <OpenedFileInfo>
-          <option name="caretOffset" value="0" />
+          <option name="caretOffset" value="775" />
           <option name="fileUrl" value="file://$PROJECT_DIR$/package.json" />
+        </OpenedFileInfo>
+        <OpenedFileInfo>
+          <option name="caretOffset" value="1438" />
+          <option name="fileUrl" value="file://$PROJECT_DIR$/src/components/ItemModal/index.tsx" />
         </OpenedFileInfo>
       </list>
     </option>

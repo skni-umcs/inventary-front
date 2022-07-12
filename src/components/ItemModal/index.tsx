@@ -109,7 +109,7 @@ const ItemModal = (prop: ItemModalType) => {
                                 onChange={tags => setItemValue('keywords', tags)}
                                 textField={classes.textField}/>
                         </Box>
-                        <Box className={classes.row}>
+                        <Box className={classes.row} style={{margin: '2%'}}>
                             <TextField
                                 className={classes.textField}
                                 label={'Opis'}
@@ -118,6 +118,8 @@ const ItemModal = (prop: ItemModalType) => {
                                 value={item.description}
                                 multiline
                                 maxRows={11}
+                                minRows={4}
+                                style={{width: '90%'}}
                                 onChange={e => setItemValue('description', e.target.value)}/>
                         </Box>
                         <Box className={classes.footerRow}>
