@@ -3,12 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
-    "@material-ui/core": "^4.12.4",
-=======
     "@material-ui/core": "^4.12.3",
     "@material-ui/data-grid": "^4.0.0-alpha.37",
->>>>>>> feature/itemsTable
     "@material-ui/icons": "^4.11.2",
     "@material-ui/styles": "^4.11.5",
     "@testing-library/jest-dom": "^5.16.2",
