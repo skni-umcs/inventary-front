@@ -1,7 +1,8 @@
 import axios from 'axios';
 import AuthClient from './auth-client';
+import IItem from "../types/item.type";
 
-const api_url = process.env.REACT_APP_ENV == 'developement' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_PROD_API_URL;
+const api_url = process.env.REACT_APP_ENV === 'developement' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_PROD_API_URL;
 
 const getConfig = () => {
     return {
@@ -14,7 +15,7 @@ const getConfig = () => {
 }
 
 const checkForErr = (err: any) => {
-    if(err.response.status == 401) {
+    if(err.response.status === 401) {
         AuthClient.clearJwt();
         window.location.href = '/';
     } else {
@@ -42,6 +43,26 @@ export default {
                 console.error(err);
             })
     },
+    updateItem(item: IItem) {
+        return axios.put(`${api_url}/item`, item, getConfig())
+            .then(res => {
+                return res.data;
+            })
+            .catch(err => {
+                console.error(err);
+            })
+    },
+    deleteItems(ids: number[]) {
+        for(let i = 0; i < ids.length; i++) {
+            axios.delete(`${api_url}/item?itemId=${ids[i]}`, getConfig())
+                .catch(err => {
+                    console.error(err);
+                })
+        }
+        return new Promise((resolve, reject) => {
+            resolve(void 0);
+        });
+    },
     getCategories () {
         return axios.get(`${api_url}/categories`, getConfig())
             .then(res => {
@@ -63,7 +84,7 @@ export default {
     login (username: string, password: string) {
         return axios.post(`${api_url}/login`, {username, password})
             .then(res => {
-                if(res.data.message == "unauthorized") {
+                if(res.data.message === "unauthorized") {
                     return res.data.message;
                 }
                 console.log(res.data);

@@ -5,47 +5,46 @@ import CloseIcon from "@material-ui/icons/Close";
 import {toast} from "react-toastify";
 
 interface TagInputProp {
-    tags?: string[],
-    onChange: (tags: string[]) => void,
-    textField: string
+    textField: string,
+    tags: string[],
+    setTags: (tags: string[]) => void,
 }
 
 const TagInput = (prop: TagInputProp) => {
 
-    const [tags, setTags] = useState<string[]>([]);
     const [input, setInput] = useState<string>('');
 
     useEffect(() => {
         prop.tags ?
-            setTags(prop.tags)
+            prop.setTags(prop.tags)
         :
-            setTags([]);
+            prop.setTags([]);
     }, [prop.tags]);
 
     const parseTagInput = (val: string) => {
         if(val.slice(-1) == ',') {
             let tag = val.substring(0,val.length-1);
-            if(tags.includes(tag)) {
+            if(prop.tags.includes(tag)) {
                 toast.warning('Ten tag jest już dodany!');
                 return;
             } else if(tag === '') {
                 toast.warning('Tag nie może być pusty!');
                 return;
-            } else if(tags.length === 10) {
+            } else if(prop.tags.length === 10) {
                 toast.warning('Możesz dodać maksymalnie 10 tagów!');
                 return;
             } else if(tag.length > 255) {
                 toast.warning('Tag może mieć maksymalnie 255 znaków!');
                 return;
             }
-            setTags(tags.concat(tag))
+            prop.setTags(prop.tags.concat(tag))
             setInput('');
         } else {
             setInput(val);
         }
     }
 
-    const removeTag = (tag: string) => setTags(tags.filter(e => e !== tag));
+    const removeTag = (tag: string) => prop.setTags(prop.tags.filter(e => e !== tag));
 
     return (
         <div style={{display: 'flex',
@@ -58,7 +57,7 @@ const TagInput = (prop: TagInputProp) => {
             margin: '2%'
         }}>
             <Box style={{display: 'flex', maxWidth: '100%', maxHeight: '90%', flexWrap: 'wrap', alignItems: 'flex-start', justifyItems: 'flex-start'}}>
-                {tags.map((tag) => {
+                {prop.tags.map((tag) => {
                     return (
                         <Box key={tag} style={{display: 'flex', height: '30px', flexDirection: 'row', backgroundColor: '#f1f1f1', padding: '1px', borderRadius: '5px', alignItems: 'center', justifyItems: 'center', margin: '2px'}}>
                             <span>{tag}</span>

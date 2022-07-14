@@ -1,5 +1,5 @@
 import React from 'react';
-import {Routes, Route} from "react-router-dom";
+import {Route, Routes} from "react-router-dom";
 import AuthClient from "./helpers/auth-client";
 import Navbar from './components/Navbar';
 import Body from './components/Body';
@@ -12,25 +12,25 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
-  return (
-    <>
-        <ToastContainer />
-        {AuthClient.checkValid() ? (
-	    <Navbar />
-	) : (<></>)}
-        <Routes>
+    return (
+        <>
+            <ToastContainer/>
             {AuthClient.checkValid() ? (
-                <>
-                    <Route path="/" element={<Body/>}/>
-                    <Route path="/item/:id" element={<ItemPage/>}/>
-                </>
-            ) : (
-                <Route path="/" element={<LoginPage/>}/>
-            )}
-            <Route path="*" element={<NotFound/>}/>
-        </Routes>
-    </>
-  );
+                <Navbar/>
+            ) : (<></>)}
+            <Routes>
+                {AuthClient.checkValid() ? (
+                    <>
+                        <Route path="/" element={<Body/>}/>
+                        <Route path="/item/:id" element={<ItemPage/>}/>
+                    </>
+                ) : (
+                    <Route path="/" element={<LoginPage/>}/>
+                )}
+                <Route path="*" element={<NotFound/>}/>
+            </Routes>
+        </>
+    );
 }
 
 export default App;

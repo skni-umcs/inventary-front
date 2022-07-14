@@ -2,9 +2,10 @@ import TableBody from './TableBody';
 import TableHeader from './TableHeader';
 import React, {useEffect, useState} from "react";
 import IItem from "../../types/item.type";
-import {DataGrid, GridRowsProp, GridColDef, GridRowId, GridRowParams} from '@material-ui/data-grid';
+import {DataGrid, GridColDef, GridRowParams, GridSelectionModel} from '@material-ui/data-grid';
 import ApiClient from "../../helpers/api-client";
 import ItemModal from "../ItemModal";
+import {Button} from "@material-ui/core";
 /*
 {
         id: 0,
@@ -29,7 +30,9 @@ const ItemsTable = () => {
     const [items, setItems] = useState<IItem[]>([]);
 
     const [itemModalVisible, setItemModalVisible] = useState(false);
-    const [itemId, setItemId] = useState<number|undefined>(undefined);
+    const [itemId, setItemId] = useState<number | undefined>(undefined);
+
+    const [selectedItem, setSelectedItems] = useState<GridSelectionModel>([]);
 
     const cols: GridColDef[] = [
         {field: 'name', headerName: 'Nazwa', width: 350},
@@ -39,7 +42,7 @@ const ItemsTable = () => {
     ];
 
     useEffect(() => {
-        ApiClient.getItems(99999, 0).then((res: IItem[]) =>  {
+        ApiClient.getItems(99999, 0).then((res: IItem[]) => {
             console.log(res);
             setItems(items.concat(res));
         });
@@ -55,17 +58,31 @@ const ItemsTable = () => {
         setItemId(undefined);
     }
 
+    const deleteItems = () => {
+        ApiClient.deleteItems(selectedItem as number[])
+            .catch((err: any) => {
+                console.error(err);
+            }).finally(() => {
+                setSelectedItems([]);
+
+            }
+        );
+    }
+
+    // TODO: Open item modal before sending delete request
     return (
-      <>
-        <ItemModal visible={itemModalVisible} itemId={itemId} closeModal={closeItemModal} />
-        <DataGrid
-            rows={items}
-            columns={cols}
-            onRowDoubleClick={e => openItemModal(e)}
-            checkboxSelection={true}
-            disableSelectionOnClick={true}
-          />
-      </>
+        <>
+            <Button variant={'contained'} onClick={deleteItems} color={'secondary'}>Usuń wybrane</Button>
+            <ItemModal visible={itemModalVisible} itemId={itemId} closeModal={closeItemModal}/>
+            <DataGrid
+                rows={items}
+                columns={cols}
+                onRowDoubleClick={e => openItemModal(e)}
+                checkboxSelection={true}
+                disableSelectionOnClick={true}
+                onSelectionModelChange={e => setSelectedItems(e)}
+            />
+        </>
     );
 }
 

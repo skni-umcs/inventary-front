@@ -48,7 +48,13 @@ const ItemModal = (prop: ItemModalType) => {
     }, [prop.itemId]);
 
     const saveData = () => {
-        return true;
+        ApiClient.updateItem(item)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     const classes = useStyles();
@@ -106,7 +112,7 @@ const ItemModal = (prop: ItemModalType) => {
                         <Box className={classes.row}>
                             <TagInput
                                 tags={item.keywords}
-                                onChange={tags => setItemValue('keywords', tags)}
+                                setTags={e => setItemValue('keywords', e)}
                                 textField={classes.textField}/>
                         </Box>
                         <Box className={classes.row} style={{margin: '2%'}}>
