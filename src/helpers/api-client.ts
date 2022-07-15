@@ -53,12 +53,15 @@ export default {
             })
     },
     deleteItems(ids: number[]) {
-        for(let i = 0; i < ids.length; i++) {
-            axios.delete(`${api_url}/item?itemId=${ids[i]}`, getConfig())
+            axios.delete(`${api_url}/item?itemId=${ids.pop()}`, getConfig())
                 .catch(err => {
                     console.error(err);
                 })
-        }
+                .finally(() => {
+                    if(ids.length > 0) {
+                        this.deleteItems(ids);
+                    }
+                })
         return new Promise((resolve, reject) => {
             resolve(void 0);
         });

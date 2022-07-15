@@ -5,7 +5,8 @@ import IItem from "../../types/item.type";
 import {DataGrid, GridColDef, GridRowParams, GridSelectionModel} from '@material-ui/data-grid';
 import ApiClient from "../../helpers/api-client";
 import ItemModal from "../ItemModal";
-import {Button} from "@material-ui/core";
+import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography} from "@material-ui/core";
+import {useLocation} from "react-router-dom";
 /*
 {
         id: 0,
@@ -32,7 +33,11 @@ const ItemsTable = () => {
     const [itemModalVisible, setItemModalVisible] = useState(false);
     const [itemId, setItemId] = useState<number | undefined>(undefined);
 
+    const [dialogVisible, setDialogVisible] = useState(false);
+
     const [selectedItem, setSelectedItems] = useState<GridSelectionModel>([]);
+
+    const location = useLocation();
 
     const cols: GridColDef[] = [
         {field: 'name', headerName: 'Nazwa', width: 350},
@@ -64,15 +69,44 @@ const ItemsTable = () => {
                 console.error(err);
             }).finally(() => {
                 setSelectedItems([]);
-
+                setDialogVisible(false);
+                location.pathname = '/';
             }
         );
     }
 
-    // TODO: Open item modal before sending delete request
+    const openDialog = () => {
+        if(selectedItem.length === 0) return;
+        setDialogVisible(true);
+    }
+
     return (
         <>
-            <Button variant={'contained'} onClick={deleteItems} color={'secondary'}>Usuń wybrane</Button>
+            <Dialog
+                maxWidth="xs"
+                aria-labelledby="confirmation-dialog-title"
+                open={dialogVisible}
+            >
+                <DialogTitle id="confirmation-dialog-title">Usuń elementy</DialogTitle>
+                <DialogContent dividers>
+                    <Typography variant={'subtitle2'} component={'h5'}>Czy na pewno chcesz usunąć wybrane elementy?</Typography>
+                    <ol>
+                        {selectedItem.map((item) => {
+                            return <li><Typography variant={'subtitle1'} component={'h6'}>{items.find((i: IItem) => i.id === item)?.name}</Typography></li>;
+                        })}
+                    </ol>
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus onClick={e => setDialogVisible(false)} color="primary">
+                        Cancel
+                    </Button>
+                    <Button onClick={deleteItems} color="primary">
+                        Ok
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Button variant={'contained'} onClick={openDialog} color={'primary'}>Dodaj pozycję</Button>
+            <Button variant={'contained'} onClick={openDialog} color={'secondary'}>Usuń wybrane</Button>
             <ItemModal visible={itemModalVisible} itemId={itemId} closeModal={closeItemModal}/>
             <DataGrid
                 rows={items}
