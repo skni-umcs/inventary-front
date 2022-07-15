@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Route, Routes} from "react-router-dom";
 import AuthClient from "./helpers/auth-client";
 import Navbar from './components/Navbar';
@@ -12,16 +12,27 @@ import 'react-toastify/dist/ReactToastify.css';
 
 
 function App() {
+
+    const [drawerOpen, setDrawerOpen] = useState(false);
+
+    const openDrawer = () => {
+        setDrawerOpen(true);
+    }
+
+    const closeDrawer = () => {
+        setDrawerOpen(false);
+    }
+
     return (
         <>
             <ToastContainer/>
             {AuthClient.checkValid() ? (
-                <Navbar/>
+                <Navbar openDrawer={ openDrawer }/>
             ) : (<></>)}
             <Routes>
                 {AuthClient.checkValid() ? (
                     <>
-                        <Route path="/" element={<Body/>}/>
+                        <Route path="/" element={<Body drawerOpen={drawerOpen} drawerOnClose={closeDrawer}/>}/>
                         <Route path="/item/:id" element={<ItemPage/>}/>
                     </>
                 ) : (

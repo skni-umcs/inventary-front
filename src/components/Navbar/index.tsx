@@ -72,9 +72,11 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
+interface NavbarProps {
+    openDrawer: () => void;
+}
 
-
-const Navbar = () => {
+const Navbar = (props: NavbarProps) => {
 
     const classes = useStyles();
 
@@ -87,6 +89,7 @@ const Navbar = () => {
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"
+                        onClick={props.openDrawer}
                     >
                         <MenuIcon />
                     </IconButton>
@@ -95,19 +98,6 @@ const Navbar = () => {
                             Inwentaryzacja
                         </Link>
                     </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
                 </Toolbar>
             </AppBar>
         </>

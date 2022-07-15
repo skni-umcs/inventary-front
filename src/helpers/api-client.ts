@@ -97,5 +97,9 @@ export default {
             .catch(err => {
                 console.error(err);
             })
+    },
+    logout () {
+        AuthClient.clearJwt();
+        window.location.href = '/';
     }
 }

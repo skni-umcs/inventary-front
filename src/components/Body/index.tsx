@@ -2,11 +2,16 @@ import React from 'react';
 import {Container} from "@material-ui/core";
 import {ItemsTable} from '../Warehouse';
 
-const Body = () => {
+interface BodyProps {
+    drawerOpen: boolean,
+    drawerOnClose: () => void,
+}
+
+const Body = (props: BodyProps) => {
   return (
     <>
         <Container maxWidth="lg" style={{marginTop: '1%', height: '80vh'}}>
-            <ItemsTable />
+            <ItemsTable drawerOpen={props.drawerOpen} drawerOnClose={props.drawerOnClose}/>
         </Container>
     </>
   );
