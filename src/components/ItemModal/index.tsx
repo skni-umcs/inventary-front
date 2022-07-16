@@ -1,6 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {ItemModalType} from "./itemModal.type";
-import {Container, Paper, Box, Typography, IconButton, Input, TextField, Button} from "@material-ui/core";
+import {
+    Container,
+    Paper,
+    Box,
+    Typography,
+    IconButton,
+    Input,
+    TextField,
+    Button,
+    Select,
+    MenuItem, InputLabel
+} from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import useStyles from "./itemModal.style";
 import Draggable from 'react-draggable';
@@ -21,6 +32,8 @@ const ItemModal = (prop: ItemModalType) => {
             keywords: []
         }
     );
+
+    const [categories, setCategories] = useState<string[]>([]);
 
     const setItemValue = (prop: string, value: string | string[]) => {
         setItem(prev => {
@@ -46,6 +59,21 @@ const ItemModal = (prop: ItemModalType) => {
             });
         console.log(item);
     }, [prop.itemId]);
+
+    useEffect(() => {
+        ApiClient.getCategories()
+            .then(res => {
+                let output=[];
+                for(let item of res){
+                    output.push(item.name);
+                }
+                setCategories(output);
+            })
+            .catch(err => {
+                console.error(err);
+            }
+            );
+    }, []);
 
     const saveData = () => {
         ApiClient.updateItem(item)
@@ -92,13 +120,17 @@ const ItemModal = (prop: ItemModalType) => {
 
                             </Box>
                             <Box className={classes.infoContainer}>
-                                <TextField
+                                <InputLabel >Kategoria</InputLabel>
+                                <Select
                                     className={classes.textField}
-                                    label={'Kategoria'}
-                                    variant={'standard'}
-                                    type={'text'}
+                                    labelId="demo-simple-select-label"
                                     value={item.category}
-                                    onChange={e => setItemValue('category', e.target.value)}/>
+                                    onChange={e => setItemValue('category', e.target.value as string)}
+                                >
+                                    {categories.map(category => (
+                                        <MenuItem key={category} value={category}>{category}</MenuItem>
+                                    ))}
+                                </Select>
 
                                 <TextField
                                     className={classes.textField}

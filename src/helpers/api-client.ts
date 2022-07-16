@@ -35,7 +35,7 @@ export default {
             .catch(checkForErr);
     },
     getItemById (id: number) {
-        return axios.get(`${api_url}/item?itemId=${id}`, getConfig())
+        return axios.get(`${api_url}/item/${id}`, getConfig())
             .then(res => {
                 return res.data;
             })
@@ -43,7 +43,14 @@ export default {
                 console.error(err);
             })
     },
-    updateItem(item: IItem) {
+    addItem (newItem: IItem) {
+        return axios.post(`${api_url}/item`, newItem, getConfig())
+            .then(res => {
+                return res.data;
+            })
+            .catch(checkForErr);
+    },
+    updateItem (item: IItem) {
         return axios.put(`${api_url}/item`, item, getConfig())
             .then(res => {
                 return res.data;
@@ -53,7 +60,7 @@ export default {
             })
     },
     deleteItems(ids: number[]) {
-            axios.delete(`${api_url}/item?itemId=${ids.pop()}`, getConfig())
+            axios.delete(`${api_url}/item/${ids.pop()}`, getConfig())
                 .catch(err => {
                     console.error(err);
                 })
@@ -67,7 +74,7 @@ export default {
         });
     },
     getCategories () {
-        return axios.get(`${api_url}/categories`, getConfig())
+        return axios.get(`${api_url}/category/all`, getConfig())
             .then(res => {
                 return res.data;
             })
