@@ -10,7 +10,7 @@ import {
     TextField,
     Button,
     Select,
-    MenuItem, InputLabel
+    MenuItem, InputLabel, FormControl
 } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import useStyles from "./itemModal.style";
@@ -120,18 +120,18 @@ const ItemModal = (prop: ItemModalType) => {
 
                             </Box>
                             <Box className={classes.infoContainer}>
-                                <InputLabel >Kategoria</InputLabel>
-                                <Select
-                                    className={classes.textField}
-                                    labelId="demo-simple-select-label"
-                                    value={item.category}
-                                    onChange={e => setItemValue('category', e.target.value as string)}
-                                >
-                                    {categories.map(category => (
-                                        <MenuItem key={category} value={category}>{category}</MenuItem>
-                                    ))}
-                                </Select>
-
+                                <FormControl className={classes.textField}>
+                                    <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
+                                    <Select
+                                        labelId="category-input"
+                                        value={item.category}
+                                        onChange={e => setItemValue('category', e.target.value as string)}
+                                    >
+                                        {categories.map(category => (
+                                            <MenuItem key={category} value={category}>{category}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                                 <TextField
                                     className={classes.textField}
                                     label={'Wartość'}
@@ -147,7 +147,13 @@ const ItemModal = (prop: ItemModalType) => {
                                 setTags={e => setItemValue('keywords', e)}
                                 textField={classes.textField}/>
                         </Box>
-                        <Box className={classes.row} style={{margin: '2%'}}>
+                        <Box className={classes.row} style={{display: 'flex',
+                            flexDirection: 'column',
+                            width: '90%',
+                            alignItems: 'center',
+                            justifyItems: 'center',
+                            placeItems: 'flex-start',
+                        }}>
                             <TextField
                                 className={classes.textField}
                                 label={'Opis'}
@@ -157,7 +163,7 @@ const ItemModal = (prop: ItemModalType) => {
                                 multiline
                                 maxRows={11}
                                 minRows={4}
-                                style={{width: '90%'}}
+                                style={{width: '96%', margin: '0 2% 0 2%'}} //Bardzo dziwne rozwiązanie, ale działa
                                 onChange={e => setItemValue('description', e.target.value)}/>
                         </Box>
                         <Box className={classes.footerRow}>
