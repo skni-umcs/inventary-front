@@ -5,12 +5,51 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import ApiClient from "../../helpers/api-client";
 import StoreIcon from '@material-ui/icons/Store';
+import ImportExportIcon from '@material-ui/icons/ImportExport';
+
+import { Parser } from "json2csv";
 
 interface MenuDrawerProps {
     open: boolean,
     onClose: () => void,
     openDeleteDialog: () => void,
     openAddModal: () => void,
+}
+
+const exportAll = () => {
+    ApiClient.getItems(99999, 0)
+        .then(res => {
+            const fields = [
+                { label: 'Nazwa', value: 'name' },
+                { label: 'Kategoria', value: 'category' },
+                { label: 'Wartość', value: 'value' },
+                { label: 'Magazyn', value: 'warehouse' },
+                { label: 'Opis', value: 'description' },
+                { label: 'Słowa kluczowe', value: 'keywords' }
+            ];
+            const json2csvParser = new Parser({ fields });
+            let csv = json2csvParser.parse(res);
+            csv = csv.replace(/"/g, '');
+            let rows = csv.split('\n');
+            let finalCsv = rows[0].replace(/,/g, ';') + '\n';
+            for(let i = 1; i < rows.length; i++) {
+                let row = rows[i];
+                console.log(row);
+                let tags = row.split('\[')[1].split('\]')[0].split(',');
+                row = row.split('[')[0].replace(/,/g, ';');
+                row = row.concat(tags.join(','));
+                finalCsv = finalCsv.concat(row + '\n');
+            }
+            const blob = new Blob([finalCsv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'items.csv';
+            link.click();
+        })
+        .catch(err => {
+            console.error(err);
+        });
 }
 
 const MenuDrawer = (props: MenuDrawerProps) => {
@@ -54,6 +93,13 @@ const MenuDrawer = (props: MenuDrawerProps) => {
                             <StoreIcon />
                         </ListItemIcon>
                         <ListItemText primary="Edytuj magazyny" />
+                    </ListItem>
+
+                    <ListItem button onClick={exportAll}>
+                        <ListItemIcon>
+                            <ImportExportIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Wyeksportuj" />
                     </ListItem>
                 </Box>
 
