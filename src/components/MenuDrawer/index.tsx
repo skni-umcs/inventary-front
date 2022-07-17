@@ -13,7 +13,7 @@ interface MenuDrawerProps {
     open: boolean,
     onClose: () => void,
     openDeleteDialog: () => void,
-    openAddModal: () => void,
+    openAddDialog: () => void,
 }
 
 const exportAll = () => {
@@ -74,7 +74,7 @@ const MenuDrawer = (props: MenuDrawerProps) => {
                 <Divider/>
 
                 <Box sx={{mb: 2}}>
-                    <ListItem button onClick={props.openAddModal}>
+                    <ListItem button onClick={props.openAddDialog}>
                         <ListItemIcon>
                             <AddCircleIcon />
                         </ListItemIcon>

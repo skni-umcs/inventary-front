@@ -5,27 +5,21 @@ import IItem from "../../types/item.type";
 import {DataGrid, GridColDef, GridRowParams, GridSelectionModel} from '@material-ui/data-grid';
 import ApiClient from "../../helpers/api-client";
 import ItemModal from "../ItemModal";
-import {Button, Dialog, DialogActions, DialogContent, DialogTitle, Typography} from "@material-ui/core";
+import {
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
+    DialogContent,
+    DialogTitle,
+    FormControl, InputLabel, MenuItem, Select,
+    TextField,
+    Typography
+} from "@material-ui/core";
 import MenuDrawer from "../MenuDrawer";
-/*
-{
-        id: 0,
-        name: 'test item 1',
-        category: "Test items",
-        value: "1.00",
-        warehouse: "Test warehouse",
-        description: 'Test item 1 description',
-        keywords: ['test', 'item', '1']
-    }, {
-        id: 1,
-        name: 'test item 2',
-        category: "Test items",
-        value: "2.00",
-        warehouse: "Test warehouse",
-        description: 'Test item 2 description',
-        keywords: ['test', 'item', '2']
-    }
- */
+import TagInput from "../ItemModal/TagInput";
+import useStyles from "../ItemModal/itemModal.style";
+import emptyItem from "../../helpers/empty-item";
 
 interface ItemTableProps {
     drawerOpen: boolean,
@@ -39,8 +33,16 @@ const ItemsTable = (props: ItemTableProps) => {
     const [itemId, setItemId] = useState<number | undefined>(undefined);
 
     const [dialogVisible, setDialogVisible] = useState(false);
+    const [addItemVisible, setAddItemVisible] = useState(false);
 
     const [selectedItem, setSelectedItems] = useState<GridSelectionModel>([]);
+
+    const [categories, setCategories] = useState<string[]>([]);
+    const [warehouses, setWarehouses] = useState<string[]>([]);
+
+    const [newItem, setNewItem] = useState<IItem>(emptyItem);
+
+    const classes = useStyles();
 
 
     const cols: GridColDef[] = [
@@ -52,7 +54,6 @@ const ItemsTable = (props: ItemTableProps) => {
 
     useEffect(() => {
         ApiClient.getItems(99999, 0).then((res: IItem[]) => {
-            console.log(res);
             setItems(items.concat(res));
         });
     }, []);
@@ -84,19 +85,152 @@ const ItemsTable = (props: ItemTableProps) => {
         setDialogVisible(true);
     }
 
-    const openAddModal = () => {
-        console.log('todo');
+    const openAddDialog = () => {
+        setAddItemVisible(true);
     }
+
+    const setItemValue = (prop: string, value: string | string[]) => {
+        setNewItem(prev => {
+            return {
+                ...prev,
+                [prop]: value
+            }
+        });
+    }
+
+    const addItem = () => {
+        ApiClient.addItem(newItem)
+            .catch((err: any) => {
+                console.error(err);
+            }).finally(() => {
+                setAddItemVisible(false);
+                // window.location.href = '/'
+            }
+        );
+    }
+
+    useEffect(() => {
+        ApiClient.getCategories()
+            .then(res => {
+                let output=[];
+                for(let item of res){
+                    output.push(item.name);
+                }
+                setCategories(output);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
+        ApiClient.getStorages()
+            .then(res => {
+                let output=[];
+                for(let item of res){
+                    output.push(item.name);
+                }
+                setWarehouses(output);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+    }, []);
 
     return (
         <>
-            <MenuDrawer open={props.drawerOpen} onClose={props.drawerOnClose} openDeleteDialog={openDialog} openAddModal={openAddModal}/>
+            <MenuDrawer open={props.drawerOpen} onClose={props.drawerOnClose} openDeleteDialog={openDialog} openAddDialog={openAddDialog}/>
             <Dialog
                 maxWidth="xs"
-                aria-labelledby="confirmation-dialog-title"
+                aria-labelledby="add-title"
+                open={addItemVisible}
+            >
+                <DialogTitle id="add-title">Dodaj element</DialogTitle>
+                <DialogContent dividers>
+                    <Typography variant={'subtitle2'} component={'h5'}>Wprowadź informacje aby zapisać je do rejestru</Typography>
+                    <Box className={classes.row}>
+                        <Box className={classes.infoContainer}>
+                            <TextField
+                                className={classes.textFieldW}
+                                label={'Nazwa przedmiotu'}
+                                variant={'standard'}
+                                type={'text'}
+                                value={newItem.name}
+                                onChange={e => setItemValue('name', e.target.value)}/>
+
+                            <FormControl className={classes.textFieldW}>
+                                <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Magazyn</InputLabel>
+                                <Select
+                                    value={newItem.warehouse}
+                                    onChange={e => setItemValue('warehouse', e.target.value as string)}
+                                >
+                                    {warehouses.map(warehouse => (
+                                        <MenuItem key={warehouse} value={warehouse}>{warehouse}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                        <Box className={classes.infoContainer}>
+                            <TextField
+                                className={classes.textFieldW}
+                                label={'Wartość'}
+                                variant={'standard'}
+                                type={'text'}
+                                value={newItem.value}
+                                onChange={e => setItemValue('value', e.target.value)}/>
+
+                            <FormControl className={classes.textFieldW}>
+                                <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
+                                <Select
+                                    value={newItem.category}
+                                    onChange={e => setItemValue('category', e.target.value as string)}
+                                >
+                                    {categories.map(category => (
+                                        <MenuItem key={category} value={category}>{category}</MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </Box>
+                    </Box>
+                    <Box className={classes.row}>
+                        <TagInput
+                            tags={newItem.keywords}
+                            setTags={e => setItemValue('keywords', e)}
+                            textField={classes.textFieldW}/>
+                    </Box>
+                    <Box className={classes.row} style={{display: 'flex',
+                        flexDirection: 'column',
+                        width: '90%',
+                        alignItems: 'center',
+                        justifyItems: 'center',
+                        placeItems: 'flex-start',
+                    }}>
+                        <TextField
+                            className={classes.textFieldW}
+                            label={'Opis'}
+                            variant={'standard'}
+                            type={'text'}
+                            value={newItem.description}
+                            multiline
+                            maxRows={11}
+                            minRows={4}
+                            style={{width: '96%', margin: '0 2% 0 2%'}} //Bardzo dziwne rozwiązanie, ale działa
+                            onChange={e => setItemValue('description', e.target.value)}/>
+                    </Box>
+                </DialogContent>
+                <DialogActions>
+                    <Button autoFocus onClick={e => setAddItemVisible(false)} color="primary">
+                        Anuluj
+                    </Button>
+                    <Button onClick={addItem} color="primary">
+                        Dodaj
+                    </Button>
+                </DialogActions>
+            </Dialog>
+            <Dialog
+                maxWidth="xs"
+                aria-labelledby="delete-title"
                 open={dialogVisible}
             >
-                <DialogTitle id="confirmation-dialog-title">Usuń elementy</DialogTitle>
+                <DialogTitle id="delete-title">Usuń elementy</DialogTitle>
                 <DialogContent dividers>
                     <Typography variant={'subtitle2'} component={'h5'}>Czy na pewno chcesz usunąć wybrane elementy?</Typography>
                     <ol>
