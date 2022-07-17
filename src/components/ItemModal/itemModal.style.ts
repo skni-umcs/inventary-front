@@ -66,6 +66,10 @@ const useStyles = makeStyles((theme: Theme) =>
         textField: {
             marginTop: '8px',
             width: '90%'
+        },
+        textFieldW: {
+            marginTop: '8px',
+            width: '98%'
         }
     })
 );

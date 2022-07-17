@@ -18,20 +18,12 @@ import Draggable from 'react-draggable';
 import IItem from "../../types/item.type";
 import ApiClient from '../../helpers/api-client';
 import TagInput from "./TagInput";
+import emptyItem from "../../helpers/empty-item";
+import {toast} from "react-toastify";
 
 const ItemModal = (prop: ItemModalType) => {
 
-    const [item, setItem] = useState<IItem>(
-        {
-            id: -1,
-            name: '',
-            category: '',
-            value: '',
-            warehouse: '',
-            description: '',
-            keywords: []
-        }
-    );
+    const [item, setItem] = useState<IItem>(emptyItem);
 
     const [categories, setCategories] = useState<string[]>([]);
     const [warehouses, setWarehouses] = useState<string[]>([]);
@@ -58,7 +50,6 @@ const ItemModal = (prop: ItemModalType) => {
             .catch(err => {
                 console.error(err);
             });
-        console.log(item);
     }, [prop.itemId]);
 
     useEffect(() => {
@@ -91,7 +82,10 @@ const ItemModal = (prop: ItemModalType) => {
     const saveData = () => {
         ApiClient.updateItem(item)
             .then(res => {
-                console.log(res);
+                if(res.message === 'success') {
+                    toast.success('Zapisano zmiany');
+                    prop.closeModal();
+                }
             })
             .catch(err => {
                 console.error(err);
