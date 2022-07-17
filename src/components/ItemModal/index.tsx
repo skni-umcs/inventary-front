@@ -19,6 +19,7 @@ import IItem from "../../types/item.type";
 import ApiClient from '../../helpers/api-client';
 import TagInput from "./TagInput";
 import emptyItem from "../../helpers/empty-item";
+import {toast} from "react-toastify";
 
 const ItemModal = (prop: ItemModalType) => {
 
@@ -81,7 +82,10 @@ const ItemModal = (prop: ItemModalType) => {
     const saveData = () => {
         ApiClient.updateItem(item)
             .then(res => {
-                console.log(res);
+                if(res.message === 'success') {
+                    toast.success('Zapisano zmiany');
+                    prop.closeModal();
+                }
             })
             .catch(err => {
                 console.error(err);

@@ -20,6 +20,7 @@ import MenuDrawer from "../MenuDrawer";
 import TagInput from "../ItemModal/TagInput";
 import useStyles from "../ItemModal/itemModal.style";
 import emptyItem from "../../helpers/empty-item";
+import {toast} from "react-toastify";
 
 interface ItemTableProps {
     drawerOpen: boolean,
@@ -52,10 +53,19 @@ const ItemsTable = (props: ItemTableProps) => {
         {field: 'warehouse', headerName: 'Magazyn', width: 250}
     ];
 
+    const getAllItems = () => {
+        ApiClient.getItems(99999, 0)
+            .then(res => {
+                setItems(res);
+            })
+            .catch(err => {
+                console.error(err);
+            }
+            );
+    }
+
     useEffect(() => {
-        ApiClient.getItems(99999, 0).then((res: IItem[]) => {
-            setItems(items.concat(res));
-        });
+        getAllItems();
     }, []);
 
     const openItemModal = (row: GridRowParams) => {
@@ -64,6 +74,7 @@ const ItemsTable = (props: ItemTableProps) => {
     }
 
     const closeItemModal = () => {
+        getAllItems();
         setItemModalVisible(false);
         setItemId(undefined);
     }
@@ -100,13 +111,19 @@ const ItemsTable = (props: ItemTableProps) => {
 
     const addItem = () => {
         ApiClient.addItem(newItem)
+            .then(res => {
+                if(res.message === 'success'){
+                    setAddItemVisible(false);
+                    setNewItem(emptyItem);
+                    getAllItems();
+                    props.drawerOnClose();
+                    toast.success('Dodano nowy element');
+                }
+            })
             .catch((err: any) => {
                 console.error(err);
-            }).finally(() => {
-                setAddItemVisible(false);
-                // window.location.href = '/'
-            }
-        );
+                toast.error('Nie udało się dodać nowego elementu');
+            });
     }
 
     useEffect(() => {
