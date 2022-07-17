@@ -83,7 +83,7 @@ export default {
             })
     },
     getStorages () {
-        return axios.get(`${api_url}/storages`, getConfig())
+        return axios.get(`${api_url}/warehouse/all`, getConfig())
             .then(res => {
                 return res.data;
             })

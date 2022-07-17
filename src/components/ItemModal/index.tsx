@@ -34,6 +34,7 @@ const ItemModal = (prop: ItemModalType) => {
     );
 
     const [categories, setCategories] = useState<string[]>([]);
+    const [warehouses, setWarehouses] = useState<string[]>([]);
 
     const setItemValue = (prop: string, value: string | string[]) => {
         setItem(prev => {
@@ -71,8 +72,20 @@ const ItemModal = (prop: ItemModalType) => {
             })
             .catch(err => {
                 console.error(err);
-            }
-            );
+            });
+
+        ApiClient.getStorages()
+            .then(res => {
+                let output=[];
+                for(let item of res){
+                    output.push(item.name);
+                }
+                setWarehouses(output);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+
     }, []);
 
     const saveData = () => {
@@ -110,20 +123,31 @@ const ItemModal = (prop: ItemModalType) => {
                                     type={'text'}
                                     value={item.name}
                                     onChange={e => setItemValue('name', e.target.value)}/>
-                                <TextField
-                                    className={classes.textField}
-                                    label={'Magazyn'}
-                                    variant={'standard'}
-                                    type={'text'}
-                                    value={item.warehouse}
-                                    onChange={e => setItemValue('warehouse', e.target.value)}/>
 
+                                <FormControl className={classes.textField}>
+                                    <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Magazyn</InputLabel>
+                                    <Select
+                                        value={item.warehouse}
+                                        onChange={e => setItemValue('warehouse', e.target.value as string)}
+                                    >
+                                        {warehouses.map(warehouse => (
+                                            <MenuItem key={warehouse} value={warehouse}>{warehouse}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Box>
                             <Box className={classes.infoContainer}>
+                                <TextField
+                                    className={classes.textField}
+                                    label={'Wartość'}
+                                    variant={'standard'}
+                                    type={'text'}
+                                    value={item.value}
+                                    onChange={e => setItemValue('value', e.target.value)}/>
+
                                 <FormControl className={classes.textField}>
                                     <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
                                     <Select
-                                        labelId="category-input"
                                         value={item.category}
                                         onChange={e => setItemValue('category', e.target.value as string)}
                                     >
@@ -132,13 +156,6 @@ const ItemModal = (prop: ItemModalType) => {
                                         ))}
                                     </Select>
                                 </FormControl>
-                                <TextField
-                                    className={classes.textField}
-                                    label={'Wartość'}
-                                    variant={'standard'}
-                                    type={'text'}
-                                    value={item.value}
-                                    onChange={e => setItemValue('value', e.target.value)}/>
                             </Box>
                         </Box>
                         <Box className={classes.row}>
