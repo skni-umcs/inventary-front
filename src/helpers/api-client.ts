@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AuthClient from './auth-client';
 import IItem from "../types/item.type";
+import {toast} from "react-toastify";
 
 const api_url = process.env.REACT_APP_ENV === 'developement' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_PROD_API_URL;
 
@@ -39,9 +40,7 @@ export default {
             .then(res => {
                 return res.data;
             })
-            .catch(err => {
-                console.error(err);
-            })
+            .catch(checkForErr)
     },
     addItem (newItem: IItem) {
         return axios.post(`${api_url}/item`, newItem, getConfig())
@@ -55,41 +54,57 @@ export default {
             .then(res => {
                 return res.data;
             })
-            .catch(err => {
-                console.error(err);
-            })
+            .catch(checkForErr)
     },
     deleteItems(ids: number[]) {
+        let count = ids.length;
             axios.delete(`${api_url}/item/${ids.pop()}`, getConfig())
-                .catch(err => {
-                    console.error(err);
-                })
-                .finally(() => {
+                .then(() => {
                     if(ids.length > 0) {
                         this.deleteItems(ids);
                     }
                 })
-        return new Promise((resolve, reject) => {
-            resolve(void 0);
-        });
+                .catch(checkForErr)
+                .finally(() => {
+                    toast.success(`Usunięto ${count} elementów`);
+                })
     },
     getCategories () {
         return axios.get(`${api_url}/category/all`, getConfig())
             .then(res => {
                 return res.data;
             })
-            .catch(err => {
-                console.error(err);
-            })
+            .catch(checkForErr)
     },
     getStorages () {
         return axios.get(`${api_url}/warehouse/all`, getConfig())
             .then(res => {
                 return res.data;
             })
-            .catch(err => {
-                console.error(err);
+            .catch(checkForErr)
+    },
+    addStorage (newStorage: string) {
+        let payload = {
+            name: newStorage
+        }
+        return axios.post(`${api_url}/warehouse`, payload, getConfig())
+            .then(res => {
+                return res.data;
             })
+            .catch(checkForErr);
+    },
+    editStorage (newStorage: {id: number, name: string}) {
+        return axios.put(`${api_url}/warehouse`, newStorage, getConfig())
+            .then(res => {
+                return res.data;
+            }).catch(checkForErr);
+    },
+    deleteStorage (id: number) {
+        return axios.delete(`${api_url}/warehouse/${id}`, getConfig())
+            .then(res => {
+                return res.data;
+            })
+            .catch(checkForErr);
     },
     login (username: string, password: string) {
         return axios.post(`${api_url}/login`, {username, password})
@@ -101,9 +116,7 @@ export default {
                 AuthClient.setJwt(res.data.token);
                 return res.data.message;
             })
-            .catch(err => {
-                console.error(err);
-            })
+            .catch(checkForErr)
     },
     logout () {
         AuthClient.clearJwt();

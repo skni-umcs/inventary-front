@@ -25,9 +25,6 @@ const ItemModal = (prop: ItemModalType) => {
 
     const [item, setItem] = useState<IItem>(emptyItem);
 
-    const [categories, setCategories] = useState<string[]>([]);
-    const [warehouses, setWarehouses] = useState<string[]>([]);
-
     const setItemValue = (prop: string, value: string | string[]) => {
         setItem(prev => {
             return {
@@ -51,33 +48,6 @@ const ItemModal = (prop: ItemModalType) => {
                 console.error(err);
             });
     }, [prop.itemId]);
-
-    useEffect(() => {
-        ApiClient.getCategories()
-            .then(res => {
-                let output=[];
-                for(let item of res){
-                    output.push(item.name);
-                }
-                setCategories(output);
-            })
-            .catch(err => {
-                console.error(err);
-            });
-
-        ApiClient.getStorages()
-            .then(res => {
-                let output=[];
-                for(let item of res){
-                    output.push(item.name);
-                }
-                setWarehouses(output);
-            })
-            .catch(err => {
-                console.error(err);
-            });
-
-    }, []);
 
     const saveData = () => {
         ApiClient.updateItem(item)
@@ -124,7 +94,7 @@ const ItemModal = (prop: ItemModalType) => {
                                         value={item.warehouse}
                                         onChange={e => setItemValue('warehouse', e.target.value as string)}
                                     >
-                                        {warehouses.map(warehouse => (
+                                        {prop.warehouses.map(warehouse => (
                                             <MenuItem key={warehouse} value={warehouse}>{warehouse}</MenuItem>
                                         ))}
                                     </Select>
@@ -145,7 +115,7 @@ const ItemModal = (prop: ItemModalType) => {
                                         value={item.category}
                                         onChange={e => setItemValue('category', e.target.value as string)}
                                     >
-                                        {categories.map(category => (
+                                        {prop.categories.map(category => (
                                             <MenuItem key={category} value={category}>{category}</MenuItem>
                                         ))}
                                     </Select>

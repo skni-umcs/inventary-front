@@ -1,5 +1,3 @@
-import TableBody from './TableBody';
-import TableHeader from './TableHeader';
 import React, {useEffect, useState} from "react";
 import IItem from "../../types/item.type";
 import {DataGrid, GridColDef, GridRowParams, GridSelectionModel} from '@material-ui/data-grid';
@@ -21,10 +19,15 @@ import TagInput from "../ItemModal/TagInput";
 import useStyles from "../ItemModal/itemModal.style";
 import emptyItem from "../../helpers/empty-item";
 import {toast} from "react-toastify";
+import AddItemDialog from "./AddItemDialog";
+import DeleteItemDialog from "./DeleteItemDialog";
+import EditWarehousesDialog from "./EditWarehousesDialog";
 
 interface ItemTableProps {
     drawerOpen: boolean,
     drawerOnClose: () => void,
+    categories: string[],
+    warehouses: string[],
 }
 
 const ItemsTable = (props: ItemTableProps) => {
@@ -33,17 +36,15 @@ const ItemsTable = (props: ItemTableProps) => {
     const [itemModalVisible, setItemModalVisible] = useState(false);
     const [itemId, setItemId] = useState<number | undefined>(undefined);
 
-    const [dialogVisible, setDialogVisible] = useState(false);
+    const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
     const [addItemVisible, setAddItemVisible] = useState(false);
+    const [editWarehouseVisible, setEditWarehouseVisible] = useState(false);
+
 
     const [selectedItem, setSelectedItems] = useState<GridSelectionModel>([]);
 
-    const [categories, setCategories] = useState<string[]>([]);
-    const [warehouses, setWarehouses] = useState<string[]>([]);
-
     const [newItem, setNewItem] = useState<IItem>(emptyItem);
 
-    const classes = useStyles();
 
 
     const cols: GridColDef[] = [
@@ -80,20 +81,13 @@ const ItemsTable = (props: ItemTableProps) => {
     }
 
     const deleteItems = () => {
-        ApiClient.deleteItems(selectedItem as number[])
-            .catch((err: any) => {
-                console.error(err);
-            }).finally(() => {
-                setSelectedItems([]);
-                setDialogVisible(false);
-                window.location.href = '/'
-            }
-        );
+        ApiClient.deleteItems(selectedItem as number[]);
+        getAllItems();
     }
 
     const openDialog = () => {
         if(selectedItem.length === 0) return;
-        setDialogVisible(true);
+        setDeleteDialogVisible(true);
     }
 
     const openAddDialog = () => {
@@ -126,146 +120,17 @@ const ItemsTable = (props: ItemTableProps) => {
             });
     }
 
-    useEffect(() => {
-        ApiClient.getCategories()
-            .then(res => {
-                let output=[];
-                for(let item of res){
-                    output.push(item.name);
-                }
-                setCategories(output);
-            })
-            .catch(err => {
-                console.error(err);
-            });
+    const openEditWarehouseDialog = () => setEditWarehouseVisible(true);
 
-        ApiClient.getStorages()
-            .then(res => {
-                let output=[];
-                for(let item of res){
-                    output.push(item.name);
-                }
-                setWarehouses(output);
-            })
-            .catch(err => {
-                console.error(err);
-            });
-    }, []);
+    const closeEditWarehouseDialog = () => setEditWarehouseVisible(false);
 
     return (
         <>
-            <MenuDrawer open={props.drawerOpen} onClose={props.drawerOnClose} openDeleteDialog={openDialog} openAddDialog={openAddDialog}/>
-            <Dialog
-                maxWidth="xs"
-                aria-labelledby="add-title"
-                open={addItemVisible}
-            >
-                <DialogTitle id="add-title">Dodaj element</DialogTitle>
-                <DialogContent dividers>
-                    <Typography variant={'subtitle2'} component={'h5'}>Wprowadź informacje aby zapisać je do rejestru</Typography>
-                    <Box className={classes.row}>
-                        <Box className={classes.infoContainer}>
-                            <TextField
-                                className={classes.textFieldW}
-                                label={'Nazwa przedmiotu'}
-                                variant={'standard'}
-                                type={'text'}
-                                value={newItem.name}
-                                onChange={e => setItemValue('name', e.target.value)}/>
-
-                            <FormControl className={classes.textFieldW}>
-                                <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Magazyn</InputLabel>
-                                <Select
-                                    value={newItem.warehouse}
-                                    onChange={e => setItemValue('warehouse', e.target.value as string)}
-                                >
-                                    {warehouses.map(warehouse => (
-                                        <MenuItem key={warehouse} value={warehouse}>{warehouse}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Box>
-                        <Box className={classes.infoContainer}>
-                            <TextField
-                                className={classes.textFieldW}
-                                label={'Wartość'}
-                                variant={'standard'}
-                                type={'text'}
-                                value={newItem.value}
-                                onChange={e => setItemValue('value', e.target.value)}/>
-
-                            <FormControl className={classes.textFieldW}>
-                                <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
-                                <Select
-                                    value={newItem.category}
-                                    onChange={e => setItemValue('category', e.target.value as string)}
-                                >
-                                    {categories.map(category => (
-                                        <MenuItem key={category} value={category}>{category}</MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Box>
-                    </Box>
-                    <Box className={classes.row}>
-                        <TagInput
-                            tags={newItem.keywords}
-                            setTags={e => setItemValue('keywords', e)}
-                            textField={classes.textFieldW}/>
-                    </Box>
-                    <Box className={classes.row} style={{display: 'flex',
-                        flexDirection: 'column',
-                        width: '90%',
-                        alignItems: 'center',
-                        justifyItems: 'center',
-                        placeItems: 'flex-start',
-                    }}>
-                        <TextField
-                            className={classes.textFieldW}
-                            label={'Opis'}
-                            variant={'standard'}
-                            type={'text'}
-                            value={newItem.description}
-                            multiline
-                            maxRows={11}
-                            minRows={4}
-                            style={{width: '96%', margin: '0 2% 0 2%'}} //Bardzo dziwne rozwiązanie, ale działa
-                            onChange={e => setItemValue('description', e.target.value)}/>
-                    </Box>
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={e => setAddItemVisible(false)} color="primary">
-                        Anuluj
-                    </Button>
-                    <Button onClick={addItem} color="primary">
-                        Dodaj
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            <Dialog
-                maxWidth="xs"
-                aria-labelledby="delete-title"
-                open={dialogVisible}
-            >
-                <DialogTitle id="delete-title">Usuń elementy</DialogTitle>
-                <DialogContent dividers>
-                    <Typography variant={'subtitle2'} component={'h5'}>Czy na pewno chcesz usunąć wybrane elementy?</Typography>
-                    <ol>
-                        {selectedItem.map((item) => {
-                            return <Typography variant={'subtitle1'} component={'h6'}><li>{items.find((i: IItem) => i.id === item)?.name}</li></Typography>;
-                        })}
-                    </ol>
-                </DialogContent>
-                <DialogActions>
-                    <Button autoFocus onClick={e => setDialogVisible(false)} color="primary">
-                        Anuluj
-                    </Button>
-                    <Button onClick={deleteItems} color="primary">
-                        Usuń
-                    </Button>
-                </DialogActions>
-            </Dialog>
-            <ItemModal visible={itemModalVisible} itemId={itemId} closeModal={closeItemModal}/>
+            <MenuDrawer open={props.drawerOpen} onClose={props.drawerOnClose} openDeleteDialog={openDialog} openAddDialog={openAddDialog} openEditWarehouseDialog={openEditWarehouseDialog}/>
+            <AddItemDialog newItem={newItem} setItemValue={setItemValue} warehouses={props.warehouses} categories={props.categories} setAddItemVisible={setAddItemVisible} addItem={addItem} dialogVisible={addItemVisible} />
+            <DeleteItemDialog selectedItem={selectedItem} items={items} confirmDelete={deleteItems} setDialogVisible={setDeleteDialogVisible} dialogVisible={deleteDialogVisible} />
+            <EditWarehousesDialog closeDialog={closeEditWarehouseDialog} dialogVisible={editWarehouseVisible} />
+            <ItemModal visible={itemModalVisible} itemId={itemId} closeModal={closeItemModal} categories={props.categories} warehouses={props.warehouses}/>
             <DataGrid
                 rows={items}
                 columns={cols}
@@ -279,7 +144,5 @@ const ItemsTable = (props: ItemTableProps) => {
 }
 
 export {
-    TableBody,
-    TableHeader,
     ItemsTable
 };

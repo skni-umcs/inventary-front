@@ -14,6 +14,7 @@ interface MenuDrawerProps {
     onClose: () => void,
     openDeleteDialog: () => void,
     openAddDialog: () => void,
+    openEditWarehouseDialog: () => void,
 }
 
 const exportAll = () => {
@@ -34,7 +35,6 @@ const exportAll = () => {
             let finalCsv = rows[0].replace(/,/g, ';') + '\n';
             for(let i = 1; i < rows.length; i++) {
                 let row = rows[i];
-                console.log(row);
                 let tags = row.split('\[')[1].split('\]')[0].split(',');
                 row = row.split('[')[0].replace(/,/g, ';');
                 row = row.concat(tags.join(','));
@@ -88,7 +88,7 @@ const MenuDrawer = (props: MenuDrawerProps) => {
                         <ListItemText primary="Usuń wybrane" />
                     </ListItem>
 
-                    <ListItem button>
+                    <ListItem button onClick={props.openEditWarehouseDialog}>
                         <ListItemIcon>
                             <StoreIcon />
                         </ListItemIcon>
