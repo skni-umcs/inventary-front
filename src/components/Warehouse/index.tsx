@@ -22,6 +22,7 @@ import {toast} from "react-toastify";
 import AddItemDialog from "./AddItemDialog";
 import DeleteItemDialog from "./DeleteItemDialog";
 import EditWarehousesDialog from "./EditWarehousesDialog";
+import EditCategoriesDialog from "./EditCategoriesDialog";
 
 interface ItemTableProps {
     drawerOpen: boolean,
@@ -39,6 +40,7 @@ const ItemsTable = (props: ItemTableProps) => {
     const [deleteDialogVisible, setDeleteDialogVisible] = useState(false);
     const [addItemVisible, setAddItemVisible] = useState(false);
     const [editWarehouseVisible, setEditWarehouseVisible] = useState(false);
+    const [editCategoriesVisible, setEditCategoriesVisible] = useState(false);
 
 
     const [selectedItem, setSelectedItems] = useState<GridSelectionModel>([]);
@@ -121,15 +123,18 @@ const ItemsTable = (props: ItemTableProps) => {
     }
 
     const openEditWarehouseDialog = () => setEditWarehouseVisible(true);
-
     const closeEditWarehouseDialog = () => setEditWarehouseVisible(false);
+    const openEditCategoriesDialog = () => setEditCategoriesVisible(true);
+    const closeEditCategoriesDialog = () => setEditCategoriesVisible(false);
+
 
     return (
         <>
-            <MenuDrawer open={props.drawerOpen} onClose={props.drawerOnClose} openDeleteDialog={openDialog} openAddDialog={openAddDialog} openEditWarehouseDialog={openEditWarehouseDialog}/>
+            <MenuDrawer open={props.drawerOpen} onClose={props.drawerOnClose} openDeleteDialog={openDialog} openAddDialog={openAddDialog} openEditWarehouseDialog={openEditWarehouseDialog} openEditCategoryDialog={openEditCategoriesDialog}/>
             <AddItemDialog newItem={newItem} setItemValue={setItemValue} warehouses={props.warehouses} categories={props.categories} setAddItemVisible={setAddItemVisible} addItem={addItem} dialogVisible={addItemVisible} />
             <DeleteItemDialog selectedItem={selectedItem} items={items} confirmDelete={deleteItems} setDialogVisible={setDeleteDialogVisible} dialogVisible={deleteDialogVisible} />
             <EditWarehousesDialog closeDialog={closeEditWarehouseDialog} dialogVisible={editWarehouseVisible} />
+            <EditCategoriesDialog closeDialog={closeEditCategoriesDialog} dialogVisible={editCategoriesVisible} />
             <ItemModal visible={itemModalVisible} itemId={itemId} closeModal={closeItemModal} categories={props.categories} warehouses={props.warehouses}/>
             <DataGrid
                 rows={items}

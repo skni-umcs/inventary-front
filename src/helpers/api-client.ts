@@ -76,6 +76,30 @@ export default {
             })
             .catch(checkForErr)
     },
+    addCategory (newCategory: string) {
+        let payload = {
+            name: newCategory
+        }
+        return axios.post(`${api_url}/category`, payload, getConfig())
+            .then(res => {
+                return res.data;
+            })
+            .catch(checkForErr);
+    },
+    deleteCategory (id: number) {
+        return axios.delete(`${api_url}/category/${id}`, getConfig())
+            .then(res => {
+                return res.data;
+            })
+            .catch(checkForErr);
+    },
+    editCategory (newCategory: {id: number, name: string}) {
+        return axios.put(`${api_url}/category`, newCategory, getConfig())
+            .then(res => {
+                return res.data;
+            })
+            .catch(checkForErr);
+    },
     getStorages () {
         return axios.get(`${api_url}/warehouse/all`, getConfig())
             .then(res => {
