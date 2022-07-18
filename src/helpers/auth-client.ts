@@ -27,6 +27,15 @@ export default {
     clearJwt() {
         localStorage.removeItem('jwt');
     },
+    getRefreshToken() {
+        return localStorage.getItem('refreshToken');
+    },
+    setRefreshToken(refreshToken: string) {
+        localStorage.setItem('refreshToken', refreshToken);
+    },
+    clearRefreshToken() {
+        localStorage.removeItem('refreshToken');
+    },
     checkValid() {
         const token = localStorage.getItem('jwt');
         if(token) {

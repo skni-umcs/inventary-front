@@ -5,10 +5,10 @@ import {toast} from "react-toastify";
 
 const api_url = process.env.REACT_APP_ENV === 'developement' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_PROD_API_URL;
 
-const getConfig = () => {
+const getConfig = (token?: string) => {
     return {
         headers: {
-            'Authorization': `Bearer ${AuthClient.getJwt()}`,
+            'Authorization': `Bearer ${token === 'refresh' ? AuthClient.getRefreshToken() : AuthClient.getJwt()}`,
             'Accept-Language': 'pl-PL',
             'Pzdr': ':>'
         }
@@ -147,14 +147,23 @@ export default {
                 if(res.data.message === "unauthorized") {
                     return res.data.message;
                 }
-                console.log(res.data);
                 AuthClient.setJwt(res.data.token);
+                AuthClient.setRefreshToken(res.data.refresh_token);
                 return res.data.message;
             })
             .catch(checkForErr)
     },
     logout () {
         AuthClient.clearJwt();
+        AuthClient.clearRefreshToken();
         window.location.href = '/';
+    },
+    refreshToken () {
+        return axios.get(`${api_url}/refresh`, getConfig('refresh'))
+            .then(res => {
+                AuthClient.setJwt(res.data.token);
+                return res.data.message;
+            })
+            .catch(checkForErr)
     }
 }

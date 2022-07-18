@@ -7,7 +7,7 @@ import LoginPage from './components/LoginPage';
 import ItemPage from './components/ItemPage';
 import NotFound from "./components/NotFound";
 import './App.css'
-import {ToastContainer} from "react-toastify";
+import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import ApiClient from "./helpers/api-client";
 
@@ -55,9 +55,21 @@ function App() {
             });
     }
 
+    const setupRefreshToken = () => {
+        setInterval(() => {
+            ApiClient.refreshToken()
+                .then(res => {
+                    console.log('Token refreshed');
+                }).catch(err => {
+                    console.error(err);
+                });
+        }, 1000 * 60 * 5);
+    }
+
     useEffect(() => {
         getCategories();
         getWarehouses();
+        setupRefreshToken();
     }, []);
 
     return (
