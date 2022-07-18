@@ -9,8 +9,7 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import ApiClient from "../../helpers/api-client";
 import {toast} from "react-toastify";
-import useStyles from "./loginPage.style";
-import {szopy} from "./loginPage.style";
+import useStyles, {szopy} from "./loginPage.style";
 import AuthClient from "../../helpers/auth-client";
 
 const LoginPage = () => {
@@ -31,7 +30,7 @@ const LoginPage = () => {
                 window.location.href = '/';
             }, 1000);
         }).catch(err => {
-            if(err.toString().toLowerCase().includes('unauthorized')) {
+            if (err.toString().toLowerCase().includes('unauthorized')) {
                 toast.error("Niepoprawna nazwa użytkownika lub hasło");
                 return;
             } else {
@@ -85,7 +84,8 @@ const LoginPage = () => {
                             </CardContent>
                         </CardActionArea>
                         <CardActions>
-                            <Box sx={{display: 'flex', justifyContent: 'space-between', width: '96%', marginLeft: '2%'}}>
+                            <Box
+                                sx={{display: 'flex', justifyContent: 'space-between', width: '96%', marginLeft: '2%'}}>
                                 <Button size="small"
                                         color="primary"
                                         variant={'contained'}

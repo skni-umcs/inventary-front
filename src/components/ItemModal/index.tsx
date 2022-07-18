@@ -1,26 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import {ItemModalType} from "./itemModal.type";
-import {Container, Paper, Box, Typography, IconButton, Input, TextField, Button} from "@material-ui/core";
+import {
+    Box,
+    Button,
+    Container,
+    FormControl,
+    IconButton,
+    InputLabel,
+    MenuItem,
+    Paper,
+    Select,
+    TextField,
+    Typography
+} from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import useStyles from "./itemModal.style";
 import Draggable from 'react-draggable';
 import IItem from "../../types/item.type";
 import ApiClient from '../../helpers/api-client';
 import TagInput from "./TagInput";
+import emptyItem from "../../helpers/empty-item";
+import {toast} from "react-toastify";
 
 const ItemModal = (prop: ItemModalType) => {
 
-    const [item, setItem] = useState<IItem>(
-        {
-            id: -1,
-            name: '',
-            category: '',
-            value: '',
-            warehouse: '',
-            description: '',
-            keywords: []
-        }
-    );
+    const [item, setItem] = useState<IItem>(emptyItem);
 
     const setItemValue = (prop: string, value: string | string[]) => {
         setItem(prev => {
@@ -32,23 +36,31 @@ const ItemModal = (prop: ItemModalType) => {
     }
 
     useEffect(() => {
-        if(prop.itemId === undefined) return;
+        if (prop.itemId === undefined) return;
         ApiClient.getItemById(prop.itemId)
             .then(res => {
                 try {
                     setItem(res);
-                } catch(e) {
+                } catch (e) {
                     console.error(e)
                 }
             })
             .catch(err => {
                 console.error(err);
             });
-        console.log(item);
     }, [prop.itemId]);
 
     const saveData = () => {
-        return true;
+        ApiClient.updateItem(item)
+            .then(res => {
+                if (res.message === 'success') {
+                    toast.success('Zapisano zmiany');
+                    prop.closeModal();
+                }
+            })
+            .catch(err => {
+                console.error(err);
+            });
     }
 
     const classes = useStyles();
@@ -76,24 +88,21 @@ const ItemModal = (prop: ItemModalType) => {
                                     type={'text'}
                                     value={item.name}
                                     onChange={e => setItemValue('name', e.target.value)}/>
-                                <TextField
-                                    className={classes.textField}
-                                    label={'Magazyn'}
-                                    variant={'standard'}
-                                    type={'text'}
-                                    value={item.warehouse}
-                                    onChange={e => setItemValue('warehouse', e.target.value)}/>
 
+                                <FormControl className={classes.textField}>
+                                    <InputLabel
+                                        className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Magazyn</InputLabel>
+                                    <Select
+                                        value={item.warehouse}
+                                        onChange={e => setItemValue('warehouse', e.target.value as string)}
+                                    >
+                                        {prop.warehouses.map(warehouse => (
+                                            <MenuItem key={warehouse} value={warehouse}>{warehouse}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Box>
                             <Box className={classes.infoContainer}>
-                                <TextField
-                                    className={classes.textField}
-                                    label={'Kategoria'}
-                                    variant={'standard'}
-                                    type={'text'}
-                                    value={item.category}
-                                    onChange={e => setItemValue('category', e.target.value)}/>
-
                                 <TextField
                                     className={classes.textField}
                                     label={'Wartość'}
@@ -101,15 +110,35 @@ const ItemModal = (prop: ItemModalType) => {
                                     type={'text'}
                                     value={item.value}
                                     onChange={e => setItemValue('value', e.target.value)}/>
+
+                                <FormControl className={classes.textField}>
+                                    <InputLabel
+                                        className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
+                                    <Select
+                                        value={item.category}
+                                        onChange={e => setItemValue('category', e.target.value as string)}
+                                    >
+                                        {prop.categories.map(category => (
+                                            <MenuItem key={category} value={category}>{category}</MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
                             </Box>
                         </Box>
                         <Box className={classes.row}>
                             <TagInput
                                 tags={item.keywords}
-                                onChange={tags => setItemValue('keywords', tags)}
+                                setTags={e => setItemValue('keywords', e)}
                                 textField={classes.textField}/>
                         </Box>
-                        <Box className={classes.row} style={{margin: '2%'}}>
+                        <Box className={classes.row} style={{
+                            display: 'flex',
+                            flexDirection: 'column',
+                            width: '90%',
+                            alignItems: 'center',
+                            justifyItems: 'center',
+                            placeItems: 'flex-start',
+                        }}>
                             <TextField
                                 className={classes.textField}
                                 label={'Opis'}
@@ -119,12 +148,13 @@ const ItemModal = (prop: ItemModalType) => {
                                 multiline
                                 maxRows={11}
                                 minRows={4}
-                                style={{width: '90%'}}
+                                style={{width: '96%', margin: '0 2% 0 2%'}} //Bardzo dziwne rozwiązanie, ale działa
                                 onChange={e => setItemValue('description', e.target.value)}/>
                         </Box>
                         <Box className={classes.footerRow}>
                             <Button variant={'contained'} color={'secondary'} onClick={prop.closeModal}>Odrzuć</Button>
-                            <Button variant={'contained'} color={'primary'} style={{marginLeft: '12px'}} onClick={saveData}>Zatwierdź</Button>
+                            <Button variant={'contained'} color={'primary'} style={{marginLeft: '12px'}}
+                                    onClick={saveData}>Zatwierdź</Button>
                         </Box>
                     </Box>
                 </Paper>

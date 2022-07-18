@@ -1,17 +1,6 @@
 import React from 'react'
-import {
-    alpha,
-    AppBar,
-    createStyles,
-    IconButton,
-    InputBase,
-    makeStyles,
-    Theme,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
+import {alpha, AppBar, createStyles, IconButton, makeStyles, Theme, Toolbar, Typography} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -72,13 +61,15 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
+interface NavbarProps {
+    openDrawer: () => void;
+}
 
-
-const Navbar = () => {
+const Navbar = (props: NavbarProps) => {
 
     const classes = useStyles();
 
-    return(
+    return (
         <>
             <AppBar position="static">
                 <Toolbar>
@@ -87,27 +78,15 @@ const Navbar = () => {
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"
+                        onClick={props.openDrawer}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
                         <Link style={{color: 'white', textDecoration: 'none'}} to={'/'}>
                             Inwentaryzacja
                         </Link>
                     </Typography>
-                    <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon />
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </div>
                 </Toolbar>
             </AppBar>
         </>
