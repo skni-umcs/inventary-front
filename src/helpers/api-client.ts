@@ -40,9 +40,7 @@ export default {
             .then(res => {
                 return res.data;
             })
-            .catch(err => {
-                console.error(err);
-            })
+            .catch(checkForErr)
     },
     addItem (newItem: IItem) {
         return axios.post(`${api_url}/item`, newItem, getConfig())
@@ -56,9 +54,7 @@ export default {
             .then(res => {
                 return res.data;
             })
-            .catch(err => {
-                console.error(err);
-            })
+            .catch(checkForErr)
     },
     deleteItems(ids: number[]) {
         let count = ids.length;
@@ -68,9 +64,7 @@ export default {
                         this.deleteItems(ids);
                     }
                 })
-                .catch(err => {
-                    console.error(err);
-                })
+                .catch(checkForErr)
                 .finally(() => {
                     toast.success(`Usunięto ${count} elementów`);
                 })
@@ -80,18 +74,37 @@ export default {
             .then(res => {
                 return res.data;
             })
-            .catch(err => {
-                console.error(err);
-            })
+            .catch(checkForErr)
     },
     getStorages () {
         return axios.get(`${api_url}/warehouse/all`, getConfig())
             .then(res => {
                 return res.data;
             })
-            .catch(err => {
-                console.error(err);
+            .catch(checkForErr)
+    },
+    addStorage (newStorage: string) {
+        let payload = {
+            name: newStorage
+        }
+        return axios.post(`${api_url}/warehouse`, payload, getConfig())
+            .then(res => {
+                return res.data;
             })
+            .catch(checkForErr);
+    },
+    editStorage (newStorage: {id: number, name: string}) {
+        return axios.put(`${api_url}/warehouse`, newStorage, getConfig())
+            .then(res => {
+                return res.data;
+            }).catch(checkForErr);
+    },
+    deleteStorage (id: number) {
+        return axios.delete(`${api_url}/warehouse/${id}`, getConfig())
+            .then(res => {
+                return res.data;
+            })
+            .catch(checkForErr);
     },
     login (username: string, password: string) {
         return axios.post(`${api_url}/login`, {username, password})
@@ -103,9 +116,7 @@ export default {
                 AuthClient.setJwt(res.data.token);
                 return res.data.message;
             })
-            .catch(err => {
-                console.error(err);
-            })
+            .catch(checkForErr)
     },
     logout () {
         AuthClient.clearJwt();
