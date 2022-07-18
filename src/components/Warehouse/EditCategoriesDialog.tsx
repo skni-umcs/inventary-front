@@ -14,41 +14,41 @@ import {
 import ApiClient from "../../helpers/api-client";
 import {toast} from "react-toastify";
 
-interface EditWarehousesDialogProps extends DialogType {
+interface EditCategoriesDialogProps extends DialogType {
     closeDialog: () => void,
 }
 
-interface Warehouse {
+interface Category {
     id: number,
     name: string,
 }
 
-const EditWarehousesDialog = (props: EditWarehousesDialogProps) => {
+const EditCategoriesDialog = (props: EditCategoriesDialogProps) => {
 
-    const [selectedWarehouse, setSelectedWarehouse] = useState(-1);
-    const [warehouses, setWarehouses] = useState<Warehouse[]>([]);
+    const [selectedCategory, setSelectedCategory] = useState(-1);
+    const [categories, setCategories] = useState<Category[]>([]);
     const [newName, setNewName] = useState('');
 
     useEffect(() => {
-        getStorages();
+        getCategories();
     }, []);
 
-    const getStorages = () => {
-        ApiClient.getStorages()
+    const getCategories = () => {
+        ApiClient.getCategories()
             .then(res => {
-                setWarehouses(res);
+                setCategories(res);
             })
             .catch(err => {
                 console.log(err);
             });
     }
 
-    const deleteSelectedWarehouse = () => {
-        ApiClient.deleteStorage(selectedWarehouse)
+    const deleteSelectedCategory = () => {
+        ApiClient.deleteCategory(selectedCategory)
             .then(res => {
                 if(res.message === 'success') {
-                    toast.success('Usunięto magazyn');
-                    getStorages();
+                    toast.success('Usunięto kategorie');
+                    getCategories();
                 }
             })
             .catch(err => {
@@ -56,12 +56,12 @@ const EditWarehousesDialog = (props: EditWarehousesDialogProps) => {
             });
     }
 
-    const addNewWarehouse = () => {
-        ApiClient.addStorage(newName)
+    const addNewCategory = () => {
+        ApiClient.addCategory(newName)
             .then(res => {
                 if(res.message === 'success') {
-                    toast.success('Dodano magazyn');
-                    getStorages();
+                    toast.success('Dodano kategorie');
+                    getCategories();
                     setNewName('');
                 }
             })
@@ -70,16 +70,16 @@ const EditWarehousesDialog = (props: EditWarehousesDialogProps) => {
             });
     }
 
-    const editWarehouse = () => {
+    const editCategory = () => {
         let data = {
-            id: selectedWarehouse,
+            id: selectedCategory,
             name: newName
         }
-        ApiClient.editStorage(data)
+        ApiClient.editCategory(data)
             .then(res => {
                 if(res.message === 'success') {
-                    toast.success('Zmieniono magazyn');
-                    getStorages();
+                    toast.success('Zmieniono nazwe kategorii');
+                    getCategories();
                     setNewName('');
                 }
             })
@@ -94,26 +94,26 @@ const EditWarehousesDialog = (props: EditWarehousesDialogProps) => {
             aria-labelledby="delete-title"
             open={props.dialogVisible}
         >
-            <DialogTitle id="delete-title">Edytuj magazyny</DialogTitle>
+            <DialogTitle id="delete-title">Edytuj kategorie</DialogTitle>
             <DialogContent dividers>
                 <FormControl style={{width: '100%'}}>
-                    <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Magazyn</InputLabel>
+                    <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
                     <Select
-                        value={selectedWarehouse}
-                        onChange={e => setSelectedWarehouse(e.target.value as number)}
+                        value={selectedCategory}
+                        onChange={e => setSelectedCategory(e.target.value as number)}
                     >
-                        {warehouses.map(warehouse => (
-                            <MenuItem key={warehouse.name} value={warehouse.id}>{warehouse.name}</MenuItem>
+                        {categories.map(category => (
+                            <MenuItem key={category.name} value={category.id}>{category.name}</MenuItem>
                         ))}
                     </Select>
                 </FormControl>
                 <Box style={{marginTop: '10px'}}>
-                <TextField onChange={e => setNewName(e.target.value)} value={newName} label={'Nazwa nowego magazynu'} variant={'standard'} type={'text'}/>
+                <TextField onChange={e => setNewName(e.target.value)} value={newName} label={'Nazwa nowej kategorii'} variant={'standard'} type={'text'}/>
                 </Box>
                 <Box style={{display: 'flex', justifyContent: 'space-evenly', marginTop: '12px'}}>
-                    <Button color={'primary'} variant={'contained'} onClick={addNewWarehouse}>Dodaj</Button>
-                    <Button color={'primary'} variant={'contained'} onClick={editWarehouse}>Edytuj</Button>
-                    <Button color={'secondary'} variant={'contained'} onClick={deleteSelectedWarehouse}>Usuń</Button>
+                    <Button color={'primary'} variant={'contained'} onClick={addNewCategory}>Dodaj</Button>
+                    <Button color={'primary'} variant={'contained'} onClick={editCategory}>Edytuj</Button>
+                    <Button color={'secondary'} variant={'contained'} onClick={deleteSelectedCategory}>Usuń</Button>
                 </Box>
             </DialogContent>
             <DialogActions>
@@ -125,4 +125,4 @@ const EditWarehousesDialog = (props: EditWarehousesDialogProps) => {
     );
 }
 
-export default EditWarehousesDialog;
+export default EditCategoriesDialog;

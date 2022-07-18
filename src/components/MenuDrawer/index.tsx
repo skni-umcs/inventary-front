@@ -6,6 +6,7 @@ import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import ApiClient from "../../helpers/api-client";
 import StoreIcon from '@material-ui/icons/Store';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
+import CategoryIcon from '@material-ui/icons/Category';
 
 import { Parser } from "json2csv";
 
@@ -15,6 +16,7 @@ interface MenuDrawerProps {
     openDeleteDialog: () => void,
     openAddDialog: () => void,
     openEditWarehouseDialog: () => void,
+    openEditCategoryDialog: () => void,
 }
 
 const exportAll = () => {
@@ -93,6 +95,13 @@ const MenuDrawer = (props: MenuDrawerProps) => {
                             <StoreIcon />
                         </ListItemIcon>
                         <ListItemText primary="Edytuj magazyny" />
+                    </ListItem>
+
+                    <ListItem button onClick={props.openEditCategoryDialog}>
+                        <ListItemIcon>
+                            <CategoryIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Edytuj kategorie" />
                     </ListItem>
 
                     <ListItem button onClick={exportAll}>
