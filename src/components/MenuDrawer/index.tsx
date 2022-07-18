@@ -9,6 +9,7 @@ import ImportExportIcon from '@material-ui/icons/ImportExport';
 import CategoryIcon from '@material-ui/icons/Category';
 
 import { Parser } from "json2csv";
+import IItem from "../../types/item.type";
 
 interface MenuDrawerProps {
     open: boolean,
@@ -19,9 +20,18 @@ interface MenuDrawerProps {
     openEditCategoryDialog: () => void,
 }
 
-const exportAll = () => {
+const exportAll = (type: string) => {
     ApiClient.getItems(99999, 0)
         .then(res => {
+            if(type === 'json') {
+                const blob = new Blob([JSON.stringify(res)], { type: 'application/json' });
+                const url = window.URL.createObjectURL(blob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'items.json';
+                link.click();
+                return;
+            }
             const fields = [
                 { label: 'Nazwa', value: 'name' },
                 { label: 'Kategoria', value: 'category' },
@@ -52,6 +62,48 @@ const exportAll = () => {
         .catch(err => {
             console.error(err);
         });
+}
+
+const importData = () => {
+const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'application/json,text/csv';
+    fileInput.onchange = (e: any) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+        if(file.name.endsWith('.json')) {
+            reader.onload = (e: any) => {
+                const data = JSON.parse(e.target.result);
+                ApiClient.importItems(data, 0);
+            };
+        } else if(file.name.endsWith('.csv')) {
+            reader.onload = (e: any) => {
+                const data = e.target.result;
+                const rows = data.split('\n');
+                const items: IItem[] = [];
+                for(let i = 1; i < rows.length; i++) {
+                    const row = rows[i].split(';');
+                    if(row.length < 5) {
+                        continue;
+                    }
+                    const item: IItem = {
+                        id: 0,
+                        name: row[0],
+                        category: row[1],
+                        value: row[2],
+                        warehouse: row[3],
+                        description: row[4],
+                        keywords: row[5].split(',')
+                    };
+                    items.push(item);
+                }
+                ApiClient.importItems(items, 0);
+            };
+
+        }
+        reader.readAsText(file);
+    }
+    fileInput.click();
 }
 
 const MenuDrawer = (props: MenuDrawerProps) => {
@@ -90,6 +142,8 @@ const MenuDrawer = (props: MenuDrawerProps) => {
                         <ListItemText primary="Usuń wybrane" />
                     </ListItem>
 
+                    <Divider/>
+
                     <ListItem button onClick={props.openEditWarehouseDialog}>
                         <ListItemIcon>
                             <StoreIcon />
@@ -104,11 +158,26 @@ const MenuDrawer = (props: MenuDrawerProps) => {
                         <ListItemText primary="Edytuj kategorie" />
                     </ListItem>
 
-                    <ListItem button onClick={exportAll}>
+                    <Divider/>
+
+                    <ListItem button onClick={() => exportAll('csv')}>
                         <ListItemIcon>
                             <ImportExportIcon />
                         </ListItemIcon>
-                        <ListItemText primary="Wyeksportuj" />
+                        <ListItemText primary="Eksport [csv]" />
+                    </ListItem>
+                    <ListItem button onClick={() => exportAll('json')}>
+                        <ListItemIcon>
+                            <ImportExportIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Eksport [json]" />
+                    </ListItem>
+
+                    <ListItem button onClick={importData}>
+                        <ListItemIcon>
+                            <ImportExportIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Import" />
                     </ListItem>
                 </Box>
 

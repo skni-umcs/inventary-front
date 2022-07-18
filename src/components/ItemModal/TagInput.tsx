@@ -44,6 +44,13 @@ const TagInput = (prop: TagInputProp) => {
         }
     }
 
+    const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
+        if(e.key === 'Enter') {
+            prop.setTags(prop.tags.concat(input));
+            setInput('');
+        }
+    }
+
     const removeTag = (tag: string) => prop.setTags(prop.tags.filter(e => e !== tag));
 
     return (
@@ -75,7 +82,8 @@ const TagInput = (prop: TagInputProp) => {
                 type={'text'}
                 value={input}
                 style={{width: '100%'}}
-                onChange={e => parseTagInput(e.target.value)}/>
+                onChange={e => parseTagInput(e.target.value)}
+                onKeyPress={e => handleKeyPress(e)}/>
         </div>
     )
 }

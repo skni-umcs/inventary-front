@@ -83,8 +83,9 @@ const ItemsTable = (props: ItemTableProps) => {
     }
 
     const deleteItems = () => {
-        ApiClient.deleteItems(selectedItem as number[]);
+        ApiClient.deleteItems(selectedItem as number[], 0);
         getAllItems();
+        setDeleteDialogVisible(false);
     }
 
     const openDialog = () => {
