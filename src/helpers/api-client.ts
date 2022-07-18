@@ -49,6 +49,18 @@ export default {
             })
             .catch(checkForErr);
     },
+    importItems(items: IItem[], count: number) {
+        axios.post(`${api_url}/item`, items.pop(), getConfig())
+            .then(res => {
+                if(items.length > 0) {
+                    this.importItems(items, count + 1);
+                } else {
+                    count = count + 1;
+                    toast.success(`${count} ${count === 1 ? 'przedmiot zaimportowany' : count < 5 ? 'przedmioty zaimportowane' : 'przedmiotów zaimportowanych'}\nOdśwież stronę`);
+                }
+            })
+            .catch(checkForErr);
+    },
     updateItem (item: IItem) {
         return axios.put(`${api_url}/item`, item, getConfig())
             .then(res => {
@@ -56,18 +68,17 @@ export default {
             })
             .catch(checkForErr)
     },
-    deleteItems(ids: number[]) {
-        let count = ids.length;
+    deleteItems(ids: number[], count: number) {
             axios.delete(`${api_url}/item/${ids.pop()}`, getConfig())
                 .then(() => {
                     if(ids.length > 0) {
-                        this.deleteItems(ids);
+                        this.deleteItems(ids, count + 1);
+                    } else {
+                        count = count + 1;
+                        toast.success(`${count} ${count === 1 ? 'przedmiot usunięty' : count < 5 ? 'przedmioty usunięte' : 'przedmiotów usuniętych'}`);
                     }
                 })
-                .catch(checkForErr)
-                .finally(() => {
-                    toast.success(`Usunięto ${count} elementów`);
-                })
+                .catch(checkForErr);
     },
     getCategories () {
         return axios.get(`${api_url}/category/all`, getConfig())
