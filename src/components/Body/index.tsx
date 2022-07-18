@@ -10,13 +10,14 @@ interface BodyProps {
 }
 
 const Body = (props: BodyProps) => {
-  return (
-    <>
-        <Container maxWidth="lg" style={{marginTop: '1%', height: '80vh'}}>
-            <ItemsTable drawerOpen={props.drawerOpen} drawerOnClose={props.drawerOnClose} categories={props.categories} warehouses={props.warehouses}/>
-        </Container>
-    </>
-  );
+    return (
+        <>
+            <Container maxWidth="lg" style={{marginTop: '1%', height: '80vh'}}>
+                <ItemsTable drawerOpen={props.drawerOpen} drawerOnClose={props.drawerOnClose}
+                            categories={props.categories} warehouses={props.warehouses}/>
+            </Container>
+        </>
+    );
 }
 
 export default Body;

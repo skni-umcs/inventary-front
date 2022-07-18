@@ -20,10 +20,13 @@ const DeleteItemDialog = (props: DeleteItemDialogProps) => {
         >
             <DialogTitle id="delete-title">Usuń elementy</DialogTitle>
             <DialogContent dividers>
-                <Typography variant={'subtitle2'} component={'h5'}>Czy na pewno chcesz usunąć wybrane elementy?</Typography>
+                <Typography variant={'subtitle2'} component={'h5'}>Czy na pewno chcesz usunąć wybrane
+                    elementy?</Typography>
                 <ol>
                     {props.selectedItem.map((item: any) => {
-                        return <Typography key={item} variant={'subtitle1'} component={'h6'}><li>{props.items.find((i: IItem) => i.id === item)?.name}</li></Typography>;
+                        return <Typography key={item} variant={'subtitle1'} component={'h6'}>
+                            <li>{props.items.find((i: IItem) => i.id === item)?.name}</li>
+                        </Typography>;
                     })}
                 </ol>
             </DialogContent>

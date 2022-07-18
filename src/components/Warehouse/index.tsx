@@ -3,20 +3,7 @@ import IItem from "../../types/item.type";
 import {DataGrid, GridColDef, GridRowParams, GridSelectionModel} from '@material-ui/data-grid';
 import ApiClient from "../../helpers/api-client";
 import ItemModal from "../ItemModal";
-import {
-    Box,
-    Button,
-    Dialog,
-    DialogActions,
-    DialogContent,
-    DialogTitle,
-    FormControl, InputLabel, MenuItem, Select,
-    TextField,
-    Typography
-} from "@material-ui/core";
 import MenuDrawer from "../MenuDrawer";
-import TagInput from "../ItemModal/TagInput";
-import useStyles from "../ItemModal/itemModal.style";
 import emptyItem from "../../helpers/empty-item";
 import {toast} from "react-toastify";
 import AddItemDialog from "./AddItemDialog";
@@ -48,7 +35,6 @@ const ItemsTable = (props: ItemTableProps) => {
     const [newItem, setNewItem] = useState<IItem>(emptyItem);
 
 
-
     const cols: GridColDef[] = [
         {field: 'name', headerName: 'Nazwa', width: 350},
         {field: 'category', headerName: 'Kategoria', width: 250},
@@ -62,8 +48,8 @@ const ItemsTable = (props: ItemTableProps) => {
                 setItems(res);
             })
             .catch(err => {
-                console.error(err);
-            }
+                    console.error(err);
+                }
             );
     }
 
@@ -89,7 +75,7 @@ const ItemsTable = (props: ItemTableProps) => {
     }
 
     const openDialog = () => {
-        if(selectedItem.length === 0) return;
+        if (selectedItem.length === 0) return;
         setDeleteDialogVisible(true);
     }
 
@@ -109,7 +95,7 @@ const ItemsTable = (props: ItemTableProps) => {
     const addItem = () => {
         ApiClient.addItem(newItem)
             .then(res => {
-                if(res.message === 'success'){
+                if (res.message === 'success') {
                     setAddItemVisible(false);
                     setNewItem(emptyItem);
                     getAllItems();
@@ -131,12 +117,18 @@ const ItemsTable = (props: ItemTableProps) => {
 
     return (
         <>
-            <MenuDrawer open={props.drawerOpen} onClose={props.drawerOnClose} openDeleteDialog={openDialog} openAddDialog={openAddDialog} openEditWarehouseDialog={openEditWarehouseDialog} openEditCategoryDialog={openEditCategoriesDialog}/>
-            <AddItemDialog newItem={newItem} setItemValue={setItemValue} warehouses={props.warehouses} categories={props.categories} setAddItemVisible={setAddItemVisible} addItem={addItem} dialogVisible={addItemVisible} />
-            <DeleteItemDialog selectedItem={selectedItem} items={items} confirmDelete={deleteItems} setDialogVisible={setDeleteDialogVisible} dialogVisible={deleteDialogVisible} />
-            <EditWarehousesDialog closeDialog={closeEditWarehouseDialog} dialogVisible={editWarehouseVisible} />
-            <EditCategoriesDialog closeDialog={closeEditCategoriesDialog} dialogVisible={editCategoriesVisible} />
-            <ItemModal visible={itemModalVisible} itemId={itemId} closeModal={closeItemModal} categories={props.categories} warehouses={props.warehouses}/>
+            <MenuDrawer open={props.drawerOpen} onClose={props.drawerOnClose} openDeleteDialog={openDialog}
+                        openAddDialog={openAddDialog} openEditWarehouseDialog={openEditWarehouseDialog}
+                        openEditCategoryDialog={openEditCategoriesDialog}/>
+            <AddItemDialog newItem={newItem} setItemValue={setItemValue} warehouses={props.warehouses}
+                           categories={props.categories} setAddItemVisible={setAddItemVisible} addItem={addItem}
+                           dialogVisible={addItemVisible}/>
+            <DeleteItemDialog selectedItem={selectedItem} items={items} confirmDelete={deleteItems}
+                              setDialogVisible={setDeleteDialogVisible} dialogVisible={deleteDialogVisible}/>
+            <EditWarehousesDialog closeDialog={closeEditWarehouseDialog} dialogVisible={editWarehouseVisible}/>
+            <EditCategoriesDialog closeDialog={closeEditCategoriesDialog} dialogVisible={editCategoriesVisible}/>
+            <ItemModal visible={itemModalVisible} itemId={itemId} closeModal={closeItemModal}
+                       categories={props.categories} warehouses={props.warehouses}/>
             <DataGrid
                 rows={items}
                 columns={cols}

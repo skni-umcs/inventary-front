@@ -6,10 +6,12 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, FormControl,
-    InputLabel, MenuItem,
-    Select, TextField,
-    Typography
+    DialogTitle,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField
 } from "@material-ui/core";
 import ApiClient from "../../helpers/api-client";
 import {toast} from "react-toastify";
@@ -46,7 +48,7 @@ const EditWarehousesDialog = (props: EditWarehousesDialogProps) => {
     const deleteSelectedWarehouse = () => {
         ApiClient.deleteStorage(selectedWarehouse)
             .then(res => {
-                if(res.message === 'success') {
+                if (res.message === 'success') {
                     toast.success('Usunięto magazyn');
                     getStorages();
                 }
@@ -59,7 +61,7 @@ const EditWarehousesDialog = (props: EditWarehousesDialogProps) => {
     const addNewWarehouse = () => {
         ApiClient.addStorage(newName)
             .then(res => {
-                if(res.message === 'success') {
+                if (res.message === 'success') {
                     toast.success('Dodano magazyn');
                     getStorages();
                     setNewName('');
@@ -77,7 +79,7 @@ const EditWarehousesDialog = (props: EditWarehousesDialogProps) => {
         }
         ApiClient.editStorage(data)
             .then(res => {
-                if(res.message === 'success') {
+                if (res.message === 'success') {
                     toast.success('Zmieniono magazyn');
                     getStorages();
                     setNewName('');
@@ -97,7 +99,8 @@ const EditWarehousesDialog = (props: EditWarehousesDialogProps) => {
             <DialogTitle id="delete-title">Edytuj magazyny</DialogTitle>
             <DialogContent dividers>
                 <FormControl style={{width: '100%'}}>
-                    <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Magazyn</InputLabel>
+                    <InputLabel
+                        className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Magazyn</InputLabel>
                     <Select
                         value={selectedWarehouse}
                         onChange={e => setSelectedWarehouse(e.target.value as number)}
@@ -108,7 +111,8 @@ const EditWarehousesDialog = (props: EditWarehousesDialogProps) => {
                     </Select>
                 </FormControl>
                 <Box style={{marginTop: '10px'}}>
-                <TextField onChange={e => setNewName(e.target.value)} value={newName} label={'Nazwa nowego magazynu'} variant={'standard'} type={'text'}/>
+                    <TextField onChange={e => setNewName(e.target.value)} value={newName}
+                               label={'Nazwa nowego magazynu'} variant={'standard'} type={'text'}/>
                 </Box>
                 <Box style={{display: 'flex', justifyContent: 'space-evenly', marginTop: '12px'}}>
                     <Button color={'primary'} variant={'contained'} onClick={addNewWarehouse}>Dodaj</Button>

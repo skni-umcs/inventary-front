@@ -1,4 +1,4 @@
-import React, {useEffect, useState, Suspense} from 'react';
+import React, {Suspense, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import IItem from "../../types/item.type";
 import ApiClient from "../../helpers/api-client";
@@ -6,22 +6,22 @@ import {CircularProgress, Container, Paper, Typography} from '@material-ui/core'
 
 const ItemPage = () => {
     return (
-      <>
-        <Container maxWidth={'lg'}>
-            <Suspense fallback={<CircularProgress />}>
-                <ItemDisplay/>
-            </Suspense>
-        </Container>
-      </>
+        <>
+            <Container maxWidth={'lg'}>
+                <Suspense fallback={<CircularProgress/>}>
+                    <ItemDisplay/>
+                </Suspense>
+            </Container>
+        </>
     );
 };
 
 const ItemDisplay = () => {
-    const { id } = useParams();
+    const {id} = useParams();
     const [item, setItem] = useState<IItem>();
 
     useEffect(() => {
-        if(id == undefined) {
+        if (id == undefined) {
             window.location.href = '/';
             return;
         }

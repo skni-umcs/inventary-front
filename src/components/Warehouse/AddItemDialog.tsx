@@ -1,10 +1,14 @@
 import React from "react";
 import {
-    Box, Button, Dialog, DialogActions,
+    Box,
+    Button,
+    Dialog,
+    DialogActions,
     DialogContent,
     DialogTitle,
     FormControl,
-    InputLabel, MenuItem,
+    InputLabel,
+    MenuItem,
     Select,
     TextField,
     Typography
@@ -34,7 +38,8 @@ const AddItemDialog = (props: AddItemDialogProps) => {
         >
             <DialogTitle id="add-title">Dodaj element</DialogTitle>
             <DialogContent dividers>
-                <Typography variant={'subtitle2'} component={'h5'}>Wprowadź informacje aby zapisać je do rejestru</Typography>
+                <Typography variant={'subtitle2'} component={'h5'}>Wprowadź informacje aby zapisać je do
+                    rejestru</Typography>
                 <Box className={classes.row}>
                     <Box className={classes.infoContainer}>
                         <TextField
@@ -46,7 +51,8 @@ const AddItemDialog = (props: AddItemDialogProps) => {
                             onChange={e => props.setItemValue('name', e.target.value)}/>
 
                         <FormControl className={classes.textFieldW}>
-                            <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Magazyn</InputLabel>
+                            <InputLabel
+                                className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Magazyn</InputLabel>
                             <Select
                                 value={props.newItem.warehouse}
                                 onChange={e => props.setItemValue('warehouse', e.target.value as string)}
@@ -67,7 +73,8 @@ const AddItemDialog = (props: AddItemDialogProps) => {
                             onChange={e => props.setItemValue('value', e.target.value)}/>
 
                         <FormControl className={classes.textFieldW}>
-                            <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
+                            <InputLabel
+                                className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
                             <Select
                                 value={props.newItem.category}
                                 onChange={e => props.setItemValue('category', e.target.value as string)}
@@ -85,7 +92,8 @@ const AddItemDialog = (props: AddItemDialogProps) => {
                         setTags={e => props.setItemValue('keywords', e)}
                         textField={classes.textFieldW}/>
                 </Box>
-                <Box className={classes.row} style={{display: 'flex',
+                <Box className={classes.row} style={{
+                    display: 'flex',
                     flexDirection: 'column',
                     width: '90%',
                     alignItems: 'center',

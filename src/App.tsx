@@ -7,7 +7,7 @@ import LoginPage from './components/LoginPage';
 import ItemPage from './components/ItemPage';
 import NotFound from "./components/NotFound";
 import './App.css'
-import {toast, ToastContainer} from "react-toastify";
+import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import ApiClient from "./helpers/api-client";
 
@@ -30,8 +30,8 @@ function App() {
     const getWarehouses = () => {
         ApiClient.getStorages()
             .then(res => {
-                let output=[];
-                for(let item of res){
+                let output = [];
+                for (let item of res) {
                     output.push(item.name);
                 }
                 setWarehouses(output);
@@ -44,8 +44,8 @@ function App() {
     const getCategories = () => {
         ApiClient.getCategories()
             .then(res => {
-                let output=[];
-                for(let item of res){
+                let output = [];
+                for (let item of res) {
                     output.push(item.name);
                 }
                 setCategories(output);
@@ -61,8 +61,8 @@ function App() {
                 .then(res => {
                     console.log('Token refreshed');
                 }).catch(err => {
-                    console.error(err);
-                });
+                console.error(err);
+            });
         }, 1000 * 60 * 5);
     }
 
@@ -76,12 +76,13 @@ function App() {
         <>
             <ToastContainer/>
             {AuthClient.checkValid() ? (
-                <Navbar openDrawer={ openDrawer }/>
+                <Navbar openDrawer={openDrawer}/>
             ) : (<></>)}
             <Routes>
                 {AuthClient.checkValid() ? (
                     <>
-                        <Route path="/" element={<Body drawerOpen={drawerOpen} drawerOnClose={closeDrawer} warehouses={warehouses} categories={categories}/>}/>
+                        <Route path="/" element={<Body drawerOpen={drawerOpen} drawerOnClose={closeDrawer}
+                                                       warehouses={warehouses} categories={categories}/>}/>
                         <Route path="/item/:id" element={<ItemPage/>}/>
                     </>
                 ) : (

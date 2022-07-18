@@ -1,17 +1,6 @@
 import React from 'react'
-import {
-    alpha,
-    AppBar,
-    createStyles,
-    IconButton,
-    InputBase,
-    makeStyles,
-    Theme,
-    Toolbar,
-    Typography
-} from "@material-ui/core";
+import {alpha, AppBar, createStyles, IconButton, makeStyles, Theme, Toolbar, Typography} from "@material-ui/core";
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
 import {Link} from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -80,7 +69,7 @@ const Navbar = (props: NavbarProps) => {
 
     const classes = useStyles();
 
-    return(
+    return (
         <>
             <AppBar position="static">
                 <Toolbar>
@@ -91,7 +80,7 @@ const Navbar = (props: NavbarProps) => {
                         aria-label="open drawer"
                         onClick={props.openDrawer}
                     >
-                        <MenuIcon />
+                        <MenuIcon/>
                     </IconButton>
                     <Typography className={classes.title} variant="h6" noWrap>
                         <Link style={{color: 'white', textDecoration: 'none'}} to={'/'}>

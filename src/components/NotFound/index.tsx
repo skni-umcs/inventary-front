@@ -1,6 +1,7 @@
 import React from 'react';
 import {Box, Container, Typography} from "@material-ui/core";
 import notfound from './404.jpeg';
+
 const NotFound = () => {
     return (
         <>

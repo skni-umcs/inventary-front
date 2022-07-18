@@ -1,16 +1,17 @@
 import React, {useEffect, useState} from 'react';
 import {ItemModalType} from "./itemModal.type";
 import {
-    Container,
-    Paper,
     Box,
-    Typography,
-    IconButton,
-    Input,
-    TextField,
     Button,
+    Container,
+    FormControl,
+    IconButton,
+    InputLabel,
+    MenuItem,
+    Paper,
     Select,
-    MenuItem, InputLabel, FormControl
+    TextField,
+    Typography
 } from "@material-ui/core";
 import CloseIcon from '@material-ui/icons/Close';
 import useStyles from "./itemModal.style";
@@ -35,12 +36,12 @@ const ItemModal = (prop: ItemModalType) => {
     }
 
     useEffect(() => {
-        if(prop.itemId === undefined) return;
+        if (prop.itemId === undefined) return;
         ApiClient.getItemById(prop.itemId)
             .then(res => {
                 try {
                     setItem(res);
-                } catch(e) {
+                } catch (e) {
                     console.error(e)
                 }
             })
@@ -52,7 +53,7 @@ const ItemModal = (prop: ItemModalType) => {
     const saveData = () => {
         ApiClient.updateItem(item)
             .then(res => {
-                if(res.message === 'success') {
+                if (res.message === 'success') {
                     toast.success('Zapisano zmiany');
                     prop.closeModal();
                 }
@@ -89,7 +90,8 @@ const ItemModal = (prop: ItemModalType) => {
                                     onChange={e => setItemValue('name', e.target.value)}/>
 
                                 <FormControl className={classes.textField}>
-                                    <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Magazyn</InputLabel>
+                                    <InputLabel
+                                        className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Magazyn</InputLabel>
                                     <Select
                                         value={item.warehouse}
                                         onChange={e => setItemValue('warehouse', e.target.value as string)}
@@ -110,7 +112,8 @@ const ItemModal = (prop: ItemModalType) => {
                                     onChange={e => setItemValue('value', e.target.value)}/>
 
                                 <FormControl className={classes.textField}>
-                                    <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
+                                    <InputLabel
+                                        className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
                                     <Select
                                         value={item.category}
                                         onChange={e => setItemValue('category', e.target.value as string)}
@@ -128,7 +131,8 @@ const ItemModal = (prop: ItemModalType) => {
                                 setTags={e => setItemValue('keywords', e)}
                                 textField={classes.textField}/>
                         </Box>
-                        <Box className={classes.row} style={{display: 'flex',
+                        <Box className={classes.row} style={{
+                            display: 'flex',
                             flexDirection: 'column',
                             width: '90%',
                             alignItems: 'center',
@@ -149,7 +153,8 @@ const ItemModal = (prop: ItemModalType) => {
                         </Box>
                         <Box className={classes.footerRow}>
                             <Button variant={'contained'} color={'secondary'} onClick={prop.closeModal}>Odrzuć</Button>
-                            <Button variant={'contained'} color={'primary'} style={{marginLeft: '12px'}} onClick={saveData}>Zatwierdź</Button>
+                            <Button variant={'contained'} color={'primary'} style={{marginLeft: '12px'}}
+                                    onClick={saveData}>Zatwierdź</Button>
                         </Box>
                     </Box>
                 </Paper>

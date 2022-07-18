@@ -22,6 +22,5 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-
 export {szopy};
 export default useStyles;

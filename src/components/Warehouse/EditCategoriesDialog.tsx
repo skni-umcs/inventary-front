@@ -6,10 +6,12 @@ import {
     Dialog,
     DialogActions,
     DialogContent,
-    DialogTitle, FormControl,
-    InputLabel, MenuItem,
-    Select, TextField,
-    Typography
+    DialogTitle,
+    FormControl,
+    InputLabel,
+    MenuItem,
+    Select,
+    TextField
 } from "@material-ui/core";
 import ApiClient from "../../helpers/api-client";
 import {toast} from "react-toastify";
@@ -46,7 +48,7 @@ const EditCategoriesDialog = (props: EditCategoriesDialogProps) => {
     const deleteSelectedCategory = () => {
         ApiClient.deleteCategory(selectedCategory)
             .then(res => {
-                if(res.message === 'success') {
+                if (res.message === 'success') {
                     toast.success('Usunięto kategorie');
                     getCategories();
                 }
@@ -59,7 +61,7 @@ const EditCategoriesDialog = (props: EditCategoriesDialogProps) => {
     const addNewCategory = () => {
         ApiClient.addCategory(newName)
             .then(res => {
-                if(res.message === 'success') {
+                if (res.message === 'success') {
                     toast.success('Dodano kategorie');
                     getCategories();
                     setNewName('');
@@ -77,7 +79,7 @@ const EditCategoriesDialog = (props: EditCategoriesDialogProps) => {
         }
         ApiClient.editCategory(data)
             .then(res => {
-                if(res.message === 'success') {
+                if (res.message === 'success') {
                     toast.success('Zmieniono nazwe kategorii');
                     getCategories();
                     setNewName('');
@@ -97,7 +99,8 @@ const EditCategoriesDialog = (props: EditCategoriesDialogProps) => {
             <DialogTitle id="delete-title">Edytuj kategorie</DialogTitle>
             <DialogContent dividers>
                 <FormControl style={{width: '100%'}}>
-                    <InputLabel className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
+                    <InputLabel
+                        className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
                     <Select
                         value={selectedCategory}
                         onChange={e => setSelectedCategory(e.target.value as number)}
@@ -108,7 +111,8 @@ const EditCategoriesDialog = (props: EditCategoriesDialogProps) => {
                     </Select>
                 </FormControl>
                 <Box style={{marginTop: '10px'}}>
-                <TextField onChange={e => setNewName(e.target.value)} value={newName} label={'Nazwa nowej kategorii'} variant={'standard'} type={'text'}/>
+                    <TextField onChange={e => setNewName(e.target.value)} value={newName}
+                               label={'Nazwa nowej kategorii'} variant={'standard'} type={'text'}/>
                 </Box>
                 <Box style={{display: 'flex', justifyContent: 'space-evenly', marginTop: '12px'}}>
                     <Button color={'primary'} variant={'contained'} onClick={addNewCategory}>Dodaj</Button>
