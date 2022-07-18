@@ -20,22 +20,27 @@ const TagInput = (prop: TagInputProp) => {
             prop.setTags([]);
     }, [prop.tags]);
 
+    const checkTag = (tag: string): boolean => {
+        if (prop.tags.includes(tag)) {
+            toast.warning('Ten tag jest już dodany!');
+            return false;
+        } else if (tag === '') {
+            toast.warning('Tag nie może być pusty!');
+            return false;
+        } else if (prop.tags.length === 20) {
+            toast.warning('Możesz dodać maksymalnie 20 tagów!');
+            return false;
+        } else if (tag.length > 255) {
+            toast.warning('Tag może mieć maksymalnie 255 znaków!');
+            return false;
+        }
+        return true;
+    }
+
     const parseTagInput = (val: string) => {
         if (val.slice(-1) == ',') {
             let tag = val.substring(0, val.length - 1);
-            if (prop.tags.includes(tag)) {
-                toast.warning('Ten tag jest już dodany!');
-                return;
-            } else if (tag === '') {
-                toast.warning('Tag nie może być pusty!');
-                return;
-            } else if (prop.tags.length === 10) {
-                toast.warning('Możesz dodać maksymalnie 10 tagów!');
-                return;
-            } else if (tag.length > 255) {
-                toast.warning('Tag może mieć maksymalnie 255 znaków!');
-                return;
-            }
+            if(!checkTag(tag)) return;
             prop.setTags(prop.tags.concat(tag))
             setInput('');
         } else {
@@ -45,7 +50,9 @@ const TagInput = (prop: TagInputProp) => {
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (e.key === 'Enter') {
-            prop.setTags(prop.tags.concat(input));
+            let tag = input;
+            if(!checkTag(tag)) return;
+            prop.setTags(prop.tags.concat(tag));
             setInput('');
         }
     }
