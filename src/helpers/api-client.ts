@@ -1,6 +1,7 @@
 import axios from 'axios';
 import AuthClient from './auth-client';
 import IItem from "../types/item.type";
+import {toast} from "react-toastify";
 
 const api_url = process.env.REACT_APP_ENV === 'developement' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_PROD_API_URL;
 
@@ -60,18 +61,19 @@ export default {
             })
     },
     deleteItems(ids: number[]) {
+        let count = ids.length;
             axios.delete(`${api_url}/item/${ids.pop()}`, getConfig())
-                .catch(err => {
-                    console.error(err);
-                })
-                .finally(() => {
+                .then(() => {
                     if(ids.length > 0) {
                         this.deleteItems(ids);
                     }
                 })
-        return new Promise((resolve, reject) => {
-            resolve(void 0);
-        });
+                .catch(err => {
+                    console.error(err);
+                })
+                .finally(() => {
+                    toast.success(`Usunięto ${count} elementów`);
+                })
     },
     getCategories () {
         return axios.get(`${api_url}/category/all`, getConfig())

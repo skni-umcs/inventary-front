@@ -21,6 +21,7 @@ import emptyItem from "../../helpers/empty-item";
 import {toast} from "react-toastify";
 import AddItemDialog from "./AddItemDialog";
 import DeleteItemDialog from "./DeleteItemDialog";
+import EditWarehousesDialog from "./EditWarehousesDialog";
 
 interface ItemTableProps {
     drawerOpen: boolean,
@@ -80,15 +81,8 @@ const ItemsTable = (props: ItemTableProps) => {
     }
 
     const deleteItems = () => {
-        ApiClient.deleteItems(selectedItem as number[])
-            .catch((err: any) => {
-                console.error(err);
-            }).finally(() => {
-                setSelectedItems([]);
-                setDeleteDialogVisible(false);
-                window.location.href = '/'
-            }
-        );
+        ApiClient.deleteItems(selectedItem as number[]);
+        getAllItems();
     }
 
     const openDialog = () => {
@@ -126,16 +120,16 @@ const ItemsTable = (props: ItemTableProps) => {
             });
     }
 
-    const openEditWarehouseDialog = () => {
-        setEditWarehouseVisible(true);
-    }
+    const openEditWarehouseDialog = () => setEditWarehouseVisible(true);
+
+    const closeEditWarehouseDialog = () => setEditWarehouseVisible(false);
 
     return (
         <>
             <MenuDrawer open={props.drawerOpen} onClose={props.drawerOnClose} openDeleteDialog={openDialog} openAddDialog={openAddDialog} openEditWarehouseDialog={openEditWarehouseDialog}/>
             <AddItemDialog newItem={newItem} setItemValue={setItemValue} warehouses={props.warehouses} categories={props.categories} setAddItemVisible={setAddItemVisible} addItem={addItem} dialogVisible={addItemVisible} />
             <DeleteItemDialog selectedItem={selectedItem} items={items} confirmDelete={deleteItems} setDialogVisible={setDeleteDialogVisible} dialogVisible={deleteDialogVisible} />
-
+            <EditWarehousesDialog closeDialog={closeEditWarehouseDialog} dialogVisible={editWarehouseVisible} />
             <ItemModal visible={itemModalVisible} itemId={itemId} closeModal={closeItemModal} categories={props.categories} warehouses={props.warehouses}/>
             <DataGrid
                 rows={items}
