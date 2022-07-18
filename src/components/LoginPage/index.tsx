@@ -30,11 +30,10 @@ const LoginPage = () => {
                 window.location.href = '/';
             }, 1000);
         }).catch(err => {
-            if (err.toString().toLowerCase().includes('unauthorized')) {
+            if (err.toString().toLowerCase().includes('unauthorized') || err.toString().toLowerCase().includes('422')) {
                 toast.error("Niepoprawna nazwa użytkownika lub hasło");
                 return;
             } else {
-                AuthClient.setJwt('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ0ZXN0IiwiaWF0IjoxNjU3MTk2MzIzLCJuYmYiOjE2NTcxOTYzMjMsImp0aSI6ImQ1NGNiOWVkLTM4MmUtNGY2ZS04Nzg2LWUxZjU3YzA1NTA1NiIsImV4cCI6MTY1NzE5NzIyMywidHlwZSI6ImFjY2VzcyIsImZyZXNoIjpmYWxzZX0.a7rs5miPibJIoi4FUwS5W-P9WBo2byFnN9lqDXB8Fa4');
                 console.log(err);
                 toast.error("Wystąpił nieoczewiany błąd. Sprawdź konsolę deweloperską.");
             }
