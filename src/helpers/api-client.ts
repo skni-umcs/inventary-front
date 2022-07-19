@@ -2,6 +2,7 @@ import axios from 'axios';
 import AuthClient from './auth-client';
 import IItem from "../types/item.type";
 import {toast} from "react-toastify";
+import LogRocket from "logrocket";
 
 const api_url = process.env.REACT_APP_ENV === 'developement' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_PROD_API_URL;
 
@@ -149,14 +150,28 @@ export default {
                 }
                 AuthClient.setJwt(res.data.token);
                 AuthClient.setRefreshToken(res.data.refresh_token);
+
+                this.getCurrentUser().then(user => {
+                    LogRocket.identify(user.user, {
+                        name: user.user
+                    });
+                }).catch(checkForErr);
+
                 return res.data.message;
             })
-            .catch(checkForErr)
+            .catch(checkForErr);
     },
     logout() {
         AuthClient.clearJwt();
         AuthClient.clearRefreshToken();
         window.location.href = '/';
+    },
+    getCurrentUser() {
+        return axios.get(`${api_url}/user`, getConfig())
+            .then(res => {
+                return res.data;
+            })
+            .catch(checkForErr)
     },
     refreshToken() {
         return axios.get(`${api_url}/refresh`, getConfig('refresh'))

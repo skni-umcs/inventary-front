@@ -47,7 +47,7 @@ const exportAll = (type: string) => {
             let finalCsv = rows[0].replace(/,/g, ';') + '\n';
             for (let i = 1; i < rows.length; i++) {
                 let row = rows[i];
-                let tags = row.split('\[')[1].split('\]')[0].split(',');
+                let tags = row.split('[')[1].split(']')[0].split(',');
                 row = row.split('[')[0].replace(/,/g, ';');
                 row = row.concat(tags.join(','));
                 finalCsv = finalCsv.concat(row + '\n');

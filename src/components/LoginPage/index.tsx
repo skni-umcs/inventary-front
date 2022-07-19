@@ -78,7 +78,8 @@ const LoginPage = () => {
                                                variant={'standard'}
                                                type={'password'}
                                                onChange={e => setPassword(e.target.value)}
-                                               fullWidth/>
+                                               fullWidth
+                                               inputProps={{'data-private': ''}} />
                                 </Box>
                             </CardContent>
                         </CardActionArea>
