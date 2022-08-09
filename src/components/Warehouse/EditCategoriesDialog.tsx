@@ -1,5 +1,3 @@
-import React, {useEffect, useState} from "react";
-import DialogType from "./dialog.type";
 import {
     Box,
     Button,
@@ -12,17 +10,19 @@ import {
     MenuItem,
     Select,
     TextField
-} from "@material-ui/core";
-import ApiClient from "../../helpers/api-client";
-import {toast} from "react-toastify";
+} from '@material-ui/core';
+import React, {useEffect, useState} from 'react';
+import {toast} from 'react-toastify';
+import ApiClient from '../../helpers/api-client';
+import DialogType from './dialog.type';
 
 interface EditCategoriesDialogProps extends DialogType {
-    closeDialog: () => void,
+    closeDialog: () => void;
 }
 
 interface Category {
-    id: number,
-    name: string,
+    id: number;
+    name: string;
 }
 
 const EditCategoriesDialog = (props: EditCategoriesDialogProps) => {
@@ -43,7 +43,7 @@ const EditCategoriesDialog = (props: EditCategoriesDialogProps) => {
             .catch(err => {
                 console.log(err);
             });
-    }
+    };
 
     const deleteSelectedCategory = () => {
         ApiClient.deleteCategory(selectedCategory)
@@ -56,7 +56,7 @@ const EditCategoriesDialog = (props: EditCategoriesDialogProps) => {
             .catch(err => {
                 console.log(err);
             });
-    }
+    };
 
     const addNewCategory = () => {
         ApiClient.addCategory(newName)
@@ -70,13 +70,13 @@ const EditCategoriesDialog = (props: EditCategoriesDialogProps) => {
             .catch(err => {
                 console.log(err);
             });
-    }
+    };
 
     const editCategory = () => {
-        let data = {
+        const data = {
             id: selectedCategory,
-            name: newName
-        }
+            name: newName,
+        };
         ApiClient.editCategory(data)
             .then(res => {
                 if (res.message === 'success') {
@@ -88,16 +88,16 @@ const EditCategoriesDialog = (props: EditCategoriesDialogProps) => {
             .catch(err => {
                 console.log(err);
             });
-    }
+    };
 
     return (
         <Dialog
-            maxWidth="sm"
-            aria-labelledby="delete-title"
+            maxWidth='sm'
+            aria-labelledby='delete-title'
             open={props.dialogVisible}
         >
-            <DialogTitle id="delete-title">Edytuj kategorie</DialogTitle>
-            <DialogContent dividers>
+            <DialogTitle id='delete-title'>Edytuj kategorie</DialogTitle>
+            <DialogContent dividers={true}>
                 <FormControl style={{width: '100%'}}>
                     <InputLabel
                         className={'MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-shrink MuiFormLabel-filled'}>Kategoria</InputLabel>
@@ -121,12 +121,12 @@ const EditCategoriesDialog = (props: EditCategoriesDialogProps) => {
                 </Box>
             </DialogContent>
             <DialogActions>
-                <Button onClick={props.closeDialog} color="primary">
+                <Button onClick={props.closeDialog} color='primary'>
                     Zamknij
                 </Button>
             </DialogActions>
         </Dialog>
     );
-}
+};
 
 export default EditCategoriesDialog;

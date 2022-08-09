@@ -1,6 +1,4 @@
-import {createStyles, makeStyles, Theme} from "@material-ui/core";
-// import s1 from './szop.jpeg';
-// import s2 from './szop2.png';
+import {createStyles, makeStyles, Theme} from '@material-ui/core';
 
 import s1 from './szop.webp';
 import s2 from './szop2.webp';

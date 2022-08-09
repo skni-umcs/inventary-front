@@ -5,43 +5,55 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import EnhancedEncryptionIcon from '@material-ui/icons/EnhancedEncryption';
 import LockIcon from '@material-ui/icons/Lock';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import React, {useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
 import ApiClient from '../../helpers/api-client';
-import AuthClient from '../../helpers/auth-client';
-import useStyles, {szopy} from './loginPage.style';
+import UserType from '../../types/user.type';
+import {szopy} from '../LoginPage/loginPage.style';
 
-const LoginPage = () => {
+const RegisterPage = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [bg, setBg] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+    const [token, setToken] = useState('');
+    const [tokenDisabled, setTokenDisabled] = useState(false);
 
-    const login = (e: any) => {
-        e.preventDefault();
-        ApiClient.login(username, password).then((res: string) => {
+    const register = () => {
+        const user: UserType = {
+            username,
+            password,
+            token,
+        };
+        if (password !== confirmPassword) {
+            toast.error('Wprowadzona hasła nie zgadzają się');
+            return;
+        }
+        ApiClient.register(user).then((res: string) => {
             if (res.toLowerCase() === 'unauthorized') {
                 return;
             } else if (res.toLowerCase() === 'ok') {
-                toast.success('Zalogowano!');
+                toast.success('Zarejestrowano!');
             }
             setTimeout(() => {
                 window.location.href = '/';
             }, 1000);
-        }).catch(err => {
-            if (err.toString().toLowerCase().includes('unauthorized') || err.toString().toLowerCase().includes('422')) {
-                toast.error('Niepoprawna nazwa użytkownika lub hasło');
-                return;
-            } else {
-                console.log(err);
-                toast.error('Wystąpił nieoczewiany błąd. Sprawdź konsolę deweloperską.');
-            }
         });
     };
 
+    const bg = szopy[Math.floor(Math.random() * szopy.length)];
+
     useEffect(() => {
-        setBg(szopy[Math.floor(Math.random() * szopy.length)]);
+        const urlParams = new URLSearchParams(window.location.search);
+        const registerToken = urlParams.get('token');
+        if (registerToken) {
+            setToken(registerToken);
+            setTokenDisabled(true);
+            window.history.replaceState(null, '', '/register');
+        }
     }, []);
 
     return (
@@ -59,7 +71,7 @@ const LoginPage = () => {
                             />
                             <CardContent>
                                 <Typography gutterBottom={true} variant='h5' component='h2'>
-                                    Logowanie
+                                    Rejestracja
                                 </Typography>
                                 <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                                     <AccountCircleIcon style={{color: 'grey', marginRight: '8px'}}/>
@@ -67,6 +79,7 @@ const LoginPage = () => {
                                                label={'Nazwa użytkownika'}
                                                variant={'standard'}
                                                type={'text'}
+                                               value={username}
                                                onChange={e => setUsername(e.target.value)}
                                                fullWidth={true}/>
                                 </Box>
@@ -77,9 +90,33 @@ const LoginPage = () => {
                                                label={'Hasło'}
                                                variant={'standard'}
                                                type={'password'}
+                                               value={password}
                                                onChange={e => setPassword(e.target.value)}
                                                fullWidth={true}
-                                               inputProps={{'data-private': ''}} />
+                                               inputProps={{'data-private': ''}}/>
+                                </Box>
+                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                    <EnhancedEncryptionIcon style={{color: 'grey', marginRight: '8px'}}/>
+                                    <TextField id={'confirm-password-input'}
+                                               label={'Potwierdź hasło'}
+                                               variant={'standard'}
+                                               type={'password'}
+                                               value={confirmPassword}
+                                               onChange={e => setConfirmPassword(e.target.value)}
+                                               fullWidth={true}
+                                               inputProps={{'data-private': ''}}/>
+                                </Box>
+                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                    <VpnKeyIcon style={{color: 'grey', marginRight: '8px'}}/>
+                                    <TextField id={'token-input'}
+                                               label={'Token zaproszenia'}
+                                               variant={'standard'}
+                                               type={'text'}
+                                               disabled={tokenDisabled}
+                                               value={token}
+                                               onChange={e => setToken(e.target.value)}
+                                               fullWidth={true}
+                                               inputProps={{'data-private': ''}}/>
                                 </Box>
                             </CardContent>
                         </CardActionArea>
@@ -90,11 +127,11 @@ const LoginPage = () => {
                                         color='primary'
                                         variant={'contained'}
                                         type={'submit'}
-                                        onClick={login}>
-                                    Zaloguj
+                                        onClick={register}>
+                                    Zarejestruj
                                 </Button>
-                                <Button size='small' color='primary' onClick={() => alert('To gratuluję')}>
-                                    Nie pamiętasz hasła?
+                                <Button size='small' color='primary' onClick={() => window.location.href = '/'}>
+                                    Chcesz się zalogować?
                                 </Button>
                             </Box>
                         </CardActions>
@@ -105,4 +142,4 @@ const LoginPage = () => {
     );
 };
 
-export default LoginPage;
+export default RegisterPage;

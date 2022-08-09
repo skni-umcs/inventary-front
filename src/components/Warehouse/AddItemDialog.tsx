@@ -1,4 +1,3 @@
-import React from "react";
 import {
     Box,
     Button,
@@ -12,32 +11,33 @@ import {
     Select,
     TextField,
     Typography
-} from "@material-ui/core";
-import TagInput from "../ItemModal/TagInput";
-import DialogType from "./dialog.type";
-import useStyles from "../ItemModal/itemModal.style";
-import IItem from "../../types/item.type";
+} from '@material-ui/core';
+import React from 'react';
+import ItemType from '../../types/item.type';
+import useStyles from '../ItemModal/itemModal.style';
+import TagInput from '../ItemModal/TagInput';
+import DialogType from './dialog.type';
 
 
 interface AddItemDialogProps extends DialogType {
-    newItem: IItem,
-    setItemValue: (prop: string, value: string | string[]) => void,
-    warehouses: string[],
-    categories: string[],
-    setAddItemVisible: (visible: boolean) => void,
-    addItem: () => void,
+    newItem: ItemType;
+    setItemValue: (prop: string, value: string | string[]) => void;
+    warehouses: string[];
+    categories: string[];
+    setAddItemVisible: (visible: boolean) => void;
+    addItem: () => void;
 }
 
 const AddItemDialog = (props: AddItemDialogProps) => {
     const classes = useStyles();
     return (
         <Dialog
-            maxWidth="xs"
-            aria-labelledby="add-title"
+            maxWidth='xs'
+            aria-labelledby='add-title'
             open={props.dialogVisible}
         >
-            <DialogTitle id="add-title">Dodaj element</DialogTitle>
-            <DialogContent dividers>
+            <DialogTitle id='add-title'>Dodaj element</DialogTitle>
+            <DialogContent dividers={true}>
                 <Typography variant={'subtitle2'} component={'h5'}>Wprowadź informacje aby zapisać je do
                     rejestru</Typography>
                 <Box className={classes.row}>
@@ -106,23 +106,23 @@ const AddItemDialog = (props: AddItemDialogProps) => {
                         variant={'standard'}
                         type={'text'}
                         value={props.newItem.description}
-                        multiline
+                        multiline={true}
                         maxRows={11}
                         minRows={4}
-                        style={{width: '96%', margin: '0 2% 0 2%'}} //Bardzo dziwne rozwiązanie, ale działa
+                        style={{width: '96%', margin: '0 2% 0 2%'}} // Bardzo dziwne rozwiązanie, ale działa
                         onChange={e => props.setItemValue('description', e.target.value)}/>
                 </Box>
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={e => props.setAddItemVisible(false)} color="primary">
+                <Button autoFocus={true} onClick={e => props.setAddItemVisible(false)} color='primary'>
                     Anuluj
                 </Button>
-                <Button onClick={props.addItem} color="primary">
+                <Button onClick={props.addItem} color='primary'>
                     Dodaj
                 </Button>
             </DialogActions>
         </Dialog>
     );
-}
+};
 
 export default AddItemDialog;

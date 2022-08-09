@@ -1,33 +1,41 @@
 import axios from 'axios';
+import LogRocket from 'logrocket';
+import {toast} from 'react-toastify';
+import ItemType from '../types/item.type';
+import UserType from '../types/user.type';
 import AuthClient from './auth-client';
-import IItem from "../types/item.type";
-import {toast} from "react-toastify";
-import LogRocket from "logrocket";
 
-const api_url = process.env.REACT_APP_ENV === 'developement' ? process.env.REACT_APP_DEV_API_URL : process.env.REACT_APP_PROD_API_URL;
+const apiUrl = process.env.REACT_APP_ENV === 'developement'
+                ? process.env.REACT_APP_DEV_API_URL
+                : process.env.REACT_APP_PROD_API_URL;
 
-const getConfig = (token?: string) => {
+const getConfig = (tokenType?: string) => {
+    if (!AuthClient.checkValid()) {
+        return {};
+    }
     return {
         headers: {
-            'Authorization': `Bearer ${token === 'refresh' ? AuthClient.getRefreshToken() : AuthClient.getJwt()}`,
+            'Authorization': `Bearer ${tokenType === 'refresh' ? AuthClient.getRefreshToken() : AuthClient.getJwt()}`,
             'Accept-Language': 'pl-PL',
-            'Pzdr': ':>'
-        }
-    }
-}
+            'Pzdr': ':>',
+        },
+    };
+};
 
 const checkForErr = (err: any) => {
     if (err.response.status === 401) {
         AuthClient.clearJwt();
         window.location.href = '/';
+    } else if (err.response.status === 422) {
+        // pass
     } else {
-        console.error("Error: ", err);
+        console.error('Error: ', err);
     }
-}
+};
 
 export default {
     getItems(n: number, skip: number) {
-        return axios.get(`${api_url}/item/list?length=${n}&skip=${skip}`, getConfig())
+        return axios.get(`${apiUrl}/item/list?length=${n}&skip=${skip}`, getConfig())
             .then(res => {
                 if (!res.data) {
                     return [];
@@ -37,115 +45,125 @@ export default {
             .catch(checkForErr);
     },
     getItemById(id: number) {
-        return axios.get(`${api_url}/item/${id}`, getConfig())
-            .then(res => {
-                return res.data;
-            })
-            .catch(checkForErr)
-    },
-    addItem(newItem: IItem) {
-        return axios.post(`${api_url}/item`, newItem, getConfig())
+        return axios.get(`${apiUrl}/item/${id}`, getConfig())
             .then(res => {
                 return res.data;
             })
             .catch(checkForErr);
     },
-    importItems(items: IItem[], count: number) {
-        axios.post(`${api_url}/item`, items.pop(), getConfig())
+    addItem(newItem: ItemType) {
+        return axios.post(`${apiUrl}/item`, newItem, getConfig())
+            .then(res => {
+                return res.data;
+            })
+            .catch(checkForErr);
+    },
+    importItems(items: ItemType[], count: number) {
+        axios.post(`${apiUrl}/item`, items.pop(), getConfig())
             .then(res => {
                 if (items.length > 0) {
                     this.importItems(items, count + 1);
                 } else {
                     count = count + 1;
-                    toast.success(`${count} ${count === 1 ? 'przedmiot zaimportowany' : count < 5 ? 'przedmioty zaimportowane' : 'przedmiotów zaimportowanych'}\nOdśwież stronę`);
+                    toast.success(`${count} ${count === 1
+                        ? 'przedmiot zaimportowany'
+                        : count < 5
+                            ? 'przedmioty zaimportowane'
+                            : 'przedmiotów zaimportowanych'}\nOdśwież stronę`);
                 }
             })
             .catch(checkForErr);
     },
-    updateItem(item: IItem) {
-        return axios.put(`${api_url}/item`, item, getConfig())
+    updateItem(item: ItemType) {
+        return axios.put(`${apiUrl}/item`, item, getConfig())
             .then(res => {
                 return res.data;
             })
-            .catch(checkForErr)
+            .catch(checkForErr);
     },
     deleteItems(ids: number[], count: number) {
-        axios.delete(`${api_url}/item/${ids.pop()}`, getConfig())
+        axios.delete(`${apiUrl}/item/${ids.pop()}`, getConfig())
             .then(() => {
                 if (ids.length > 0) {
                     this.deleteItems(ids, count + 1);
                 } else {
                     count = count + 1;
-                    toast.success(`${count} ${count === 1 ? 'przedmiot usunięty' : count < 5 ? 'przedmioty usunięte' : 'przedmiotów usuniętych'}`);
+                    toast.success(`${count} ${count === 1
+                        ? 'przedmiot usunięty'
+                        : count < 5
+                            ? 'przedmioty usunięte'
+                            : 'przedmiotów usuniętych'}`);
                 }
             })
             .catch(checkForErr);
     },
     getCategories() {
-        return axios.get(`${api_url}/category/all`, getConfig())
+        if (!AuthClient.checkValid()) { return Promise.resolve([]); }
+        return axios.get(`${apiUrl}/category/all`, getConfig())
             .then(res => {
                 return res.data;
             })
-            .catch(checkForErr)
+            .catch(checkForErr);
     },
     addCategory(newCategory: string) {
-        let payload = {
-            name: newCategory
-        }
-        return axios.post(`${api_url}/category`, payload, getConfig())
+        const payload = {
+            name: newCategory,
+        };
+        return axios.post(`${apiUrl}/category`, payload, getConfig())
             .then(res => {
                 return res.data;
             })
             .catch(checkForErr);
     },
     deleteCategory(id: number) {
-        return axios.delete(`${api_url}/category/${id}`, getConfig())
+        return axios.delete(`${apiUrl}/category/${id}`, getConfig())
             .then(res => {
                 return res.data;
             })
             .catch(checkForErr);
     },
     editCategory(newCategory: { id: number, name: string }) {
-        return axios.put(`${api_url}/category`, newCategory, getConfig())
+        return axios.put(`${apiUrl}/category`, newCategory, getConfig())
             .then(res => {
                 return res.data;
             })
             .catch(checkForErr);
     },
     getStorages() {
-        return axios.get(`${api_url}/warehouse/all`, getConfig())
+        if (!AuthClient.checkValid()) { return Promise.resolve([]); }
+        return axios.get(`${apiUrl}/warehouse/all`, getConfig())
             .then(res => {
                 return res.data;
             })
-            .catch(checkForErr)
+            .catch(checkForErr);
     },
     addStorage(newStorage: string) {
-        let payload = {
-            name: newStorage
-        }
-        return axios.post(`${api_url}/warehouse`, payload, getConfig())
+        const payload = {
+            name: newStorage,
+        };
+        return axios.post(`${apiUrl}/warehouse`, payload, getConfig())
             .then(res => {
                 return res.data;
             })
             .catch(checkForErr);
     },
     editStorage(newStorage: { id: number, name: string }) {
-        return axios.put(`${api_url}/warehouse`, newStorage, getConfig())
+        return axios.put(`${apiUrl}/warehouse`, newStorage, getConfig())
             .then(res => {
                 return res.data;
             }).catch(checkForErr);
     },
     deleteStorage(id: number) {
-        return axios.delete(`${api_url}/warehouse/${id}`, getConfig())
+        return axios.delete(`${apiUrl}/warehouse/${id}`, getConfig())
             .then(res => {
                 return res.data;
             })
             .catch(checkForErr);
     },
     login(username: string, password: string) {
-        return axios.post(`${api_url}/login`, {username, password})
+        return axios.post(`${apiUrl}/login`, {username, password})
             .then(res => {
-                if (res.data.message === "unauthorized") {
+                if (res.data.message === 'unauthorized') {
                     return res.data.message;
                 }
                 AuthClient.setJwt(res.data.token);
@@ -153,11 +171,18 @@ export default {
 
                 this.getCurrentUser().then(user => {
                     LogRocket.identify(user.user, {
-                        name: user.user
+                        name: user.user,
                     });
                 }).catch(checkForErr);
 
                 return res.data.message;
+            })
+            .catch(checkForErr);
+    },
+    register(user: UserType) {
+        return axios.post(`${apiUrl}/register`, user)
+            .then(res => {
+                return res.data;
             })
             .catch(checkForErr);
     },
@@ -167,18 +192,32 @@ export default {
         window.location.href = '/';
     },
     getCurrentUser() {
-        return axios.get(`${api_url}/user`, getConfig())
+        return axios.get(`${apiUrl}/user`, getConfig())
             .then(res => {
                 return res.data;
             })
-            .catch(checkForErr)
+            .catch(checkForErr);
     },
     refreshToken() {
-        return axios.get(`${api_url}/refresh`, getConfig('refresh'))
+        return axios.get(`${apiUrl}/refresh`, getConfig('refresh'))
             .then(res => {
                 AuthClient.setJwt(res.data.token);
                 return res.data.message;
             })
-            .catch(checkForErr)
-    }
-}
+            .catch(checkForErr);
+    },
+    getMyTokens() {
+        return axios.get(`${apiUrl}/register/token/my`, getConfig())
+            .then(res => {
+                return res.data;
+            })
+            .catch(checkForErr);
+    },
+    addToken(name: string, quota: number) {
+        return axios.get(`${apiUrl}/register/token/generate?name=${name}&userLimit=${quota}`, getConfig())
+            .then(res => {
+                return res.data;
+            })
+            .catch(checkForErr);
+    },
+};

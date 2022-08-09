@@ -1,21 +1,21 @@
-interface jwt {
-    exp: number,
-    fresh?: boolean,
-    iat?: number,
-    jti?: string,
-    nbf?: number,
-    sub?: string,
-    type?: string
+interface Jwt {
+    exp: number;
+    fresh?: boolean;
+    iat?: number;
+    jti?: string;
+    nbf?: number;
+    sub?: string;
+    type?: string;
 }
 
-const parseToken = (token: string): jwt => {
+const parseToken = (token: string): Jwt => {
     try {
-        return JSON.parse(atob(token.split('.')[1]))
+        return JSON.parse(atob(token.split('.')[1]));
     } catch (e) {
         console.error('Couldn\'t parse JWT token. Try signing out and in again!');
-        return {exp: 0}
+        return {exp: 0};
     }
-}
+};
 
 export default {
     getJwt() {
@@ -47,5 +47,5 @@ export default {
             return true;
         }
         return false;
-    }
-}
+    },
+};

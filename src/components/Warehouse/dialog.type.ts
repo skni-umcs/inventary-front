@@ -1,5 +1,5 @@
 interface DialogType {
-    dialogVisible: boolean,
+    dialogVisible: boolean;
 }
 
 export default DialogType;

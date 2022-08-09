@@ -1,0 +1,62 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-react"
+  ],
+  "jsRules": {},
+  "rules": {
+    "jsx-no-lambda": false,
+    "quotemark": {
+      "options": [
+        "single",
+        "avoid-escape"
+      ]
+    },
+    "interface-name": {
+      "options": ["never-prefix"]
+    },
+    "no-namespace": false,
+    "no-var-requires": false,
+    "arrow-parens": false,
+    "member-access": [true, "no-public"],
+    "array-type": [
+      true,
+      "array"
+    ],
+    "no-empty-interface": false,
+    "max-line-length": [
+      true,
+      {
+        "limit": 120,
+        "ignore-pattern": "(^(import |export class |export interface|describe\\()|(https?://)|(\\s*)it(WithConfig)?(\\.only|\\.skip)?)"
+      }
+    ],
+    "no-console": false, // TODO restore?
+    "semicolon": true,
+    "object-literal-sort-keys": false,
+    "ordered-imports": true,
+    "curly": true,
+    "trailing-comma": [
+      true,
+      {
+        "multiline": {
+          "objects": "always",
+          "arrays": "always",
+          "functions": "always",
+          "typeLiterals": "ignore"
+        },
+        "esSpecCompliant": true
+      }
+    ],
+    "indent": [true, "spaces", 4],
+    "no-duplicate-imports": true,
+    "whitespace": [
+      true,
+      "check-branch",
+      "check-separator",
+      "check-type"
+    ]
+  },
+  "rulesDirectory": []
+}
