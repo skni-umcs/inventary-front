@@ -18,9 +18,7 @@
     "@types/react-dom": "^17.0.13",
     "@types/react-router-dom": "5",
     "axios": "^0.26.1",
-    "husky": "^8.0.0",
     "json2csv": "^5.0.3",
-    "lint-staged": "^13.0.3",
     "logrocket": "^3.0.1",
     "logrocket-react": "^5.0.1",
     "react": "^17.0.2",
@@ -29,10 +27,14 @@
     "react-router-dom": "6",
     "react-scripts": "5.0.0",
     "react-toastify": "^8.2.0",
-    "tslint": "^6.1.3",
-    "tslint-react": "^5.0.0",
     "typescript": "^4.6.2",
     "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "lint-staged": "^13.0.3",
+    "tslint": "^6.1.3",
+    "tslint-react": "^5.0.0",
+    "husky": "^8.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
