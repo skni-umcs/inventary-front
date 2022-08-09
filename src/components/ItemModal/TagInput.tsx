@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from "react";
-import {Box, IconButton, TextField} from "@material-ui/core";
-import CloseIcon from "@material-ui/icons/Close";
-import {toast} from "react-toastify";
+import {Box, IconButton, TextField} from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
+import React, {useEffect, useState} from 'react';
+import {toast} from 'react-toastify';
 
 interface TagInputProp {
-    textField: string,
-    tags: string[],
-    setTags: (tags: string[]) => void,
+    textField: string;
+    tags: string[];
+    setTags: (tags: string[]) => void;
 }
 
 const TagInput = (prop: TagInputProp) => {
@@ -35,27 +35,27 @@ const TagInput = (prop: TagInputProp) => {
             return false;
         }
         return true;
-    }
+    };
 
     const parseTagInput = (val: string) => {
-        if (val.slice(-1) == ',') {
-            let tag = val.substring(0, val.length - 1);
-            if(!checkTag(tag)) return;
-            prop.setTags(prop.tags.concat(tag))
+        if (val.slice(-1) === ',') {
+            const tag = val.substring(0, val.length - 1);
+            if (!checkTag(tag)) { return; }
+            prop.setTags(prop.tags.concat(tag));
             setInput('');
         } else {
             setInput(val);
         }
-    }
+    };
 
     const handleKeyPress = (e: React.KeyboardEvent<HTMLDivElement>) => {
         if (e.key === 'Enter') {
-            let tag = input;
-            if(!checkTag(tag)) return;
+            const tag = input;
+            if (!checkTag(tag)) { return; }
             prop.setTags(prop.tags.concat(tag));
             setInput('');
         }
-    }
+    };
 
     const removeTag = (tag: string) => prop.setTags(prop.tags.filter(e => e !== tag));
 
@@ -68,7 +68,7 @@ const TagInput = (prop: TagInputProp) => {
             justifyItems: 'center',
             marginTop: '2%',
             placeItems: 'flex-start',
-            margin: '2%'
+            margin: '2%',
         }}>
             <Box style={{
                 display: 'flex',
@@ -76,7 +76,7 @@ const TagInput = (prop: TagInputProp) => {
                 maxHeight: '90%',
                 flexWrap: 'wrap',
                 alignItems: 'flex-start',
-                justifyItems: 'flex-start'
+                justifyItems: 'flex-start',
             }}>
                 {prop.tags.map((tag) => {
                     return (
@@ -89,7 +89,7 @@ const TagInput = (prop: TagInputProp) => {
                             borderRadius: '5px',
                             alignItems: 'center',
                             justifyItems: 'center',
-                            margin: '2px'
+                            margin: '2px',
                         }}>
                             <span>{tag}</span>
                             <IconButton style={{width: '12px', height: '12px'}} onClick={e => removeTag(tag)}>
@@ -109,7 +109,7 @@ const TagInput = (prop: TagInputProp) => {
                 onChange={e => parseTagInput(e.target.value)}
                 onKeyPress={e => handleKeyPress(e)}/>
         </div>
-    )
-}
+    );
+};
 
 export default TagInput;

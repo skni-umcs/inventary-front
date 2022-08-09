@@ -1,45 +1,35 @@
-import {createStyles, makeStyles, Theme} from "@material-ui/core";
+import {createStyles, makeStyles, Theme} from '@material-ui/core';
 
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
         container: {
             position: 'absolute',
-            width: '40vw',
-            height: '70vh',
-            backgroundColor: 'white',
-            zIndex: 999,
-            display: 'flex',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            borderRadius: '6px',
-            boxShadow: '1px 1px 10px 0px rgba(66, 68, 90, 1)',
-            padding: 0
+            zIndex: 1,
+            transform: 'translate(-50%, -50%)',
+            width: '50vw',
+            height: '60vh',
+            backgroundColor: '#fff',
+            border: '1px solid #ccc',
+            overflowY: 'auto',
         },
         topBar: {
-            backgroundColor: 'white',
-            borderBottom: '1px solid black',
-            width: '95%',
-            height: '64px',
             display: 'flex',
-            margin: 'auto 6px',
-            justifyContent: 'space-between'
-        },
-        Btn: {
-            width: '48px',
-            height: '48px'
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '0.5rem',
+            backgroundColor: '#f5f5f5',
+            borderBottom: '1px solid #ccc',
         },
         mainContainer: {
             width: '100%',
-            height: '82%',
             display: 'flex',
             alignItems: 'center',
             flexDirection: 'column',
             margin: '0px auto',
-            // transform: 'translateY(-30%)'
         },
         row: {
-            width: '90%',
+            width: '100%',
             display: 'flex',
             justifyContent: 'space-between',
         },
@@ -52,8 +42,7 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             justifyContent: 'flex-end',
             alignItems: 'flex-end',
-            height: '100%',
-            marginBottom: '3%',
+            padding: '3%',
         },
         infoContainer: {
             width: '40%',
@@ -61,17 +50,17 @@ const useStyles = makeStyles((theme: Theme) =>
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center',
-            flexDirection: 'column'
+            flexDirection: 'column',
         },
         textField: {
             marginTop: '8px',
-            width: '90%'
+            width: '90%',
         },
         textFieldW: {
             marginTop: '8px',
-            width: '98%'
-        }
-    })
+            width: '98%',
+        },
+    }),
 );
 
 export default useStyles;

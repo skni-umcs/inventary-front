@@ -1,7 +1,7 @@
-import React from 'react'
-import {alpha, AppBar, createStyles, IconButton, makeStyles, Theme, Toolbar, Typography} from "@material-ui/core";
+import {alpha, AppBar, createStyles, IconButton, makeStyles, Theme, Toolbar, Typography} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import {Link} from "react-router-dom";
+import React from 'react';
+import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) =>
     createStyles({
@@ -71,18 +71,18 @@ const Navbar = (props: NavbarProps) => {
 
     return (
         <>
-            <AppBar position="static">
+            <AppBar position='static'>
                 <Toolbar>
                     <IconButton
-                        edge="start"
+                        edge='start'
                         className={classes.menuButton}
-                        color="inherit"
-                        aria-label="open drawer"
+                        color='inherit'
+                        aria-label='open drawer'
                         onClick={props.openDrawer}
                     >
                         <MenuIcon/>
                     </IconButton>
-                    <Typography className={classes.title} variant="h6" noWrap>
+                    <Typography className={classes.title} variant='h6' noWrap={true}>
                         <Link style={{color: 'white', textDecoration: 'none'}} to={'/'}>
                             Inwentaryzacja
                         </Link>
@@ -90,7 +90,7 @@ const Navbar = (props: NavbarProps) => {
                 </Toolbar>
             </AppBar>
         </>
-    )
-}
+    );
+};
 
 export default Navbar;

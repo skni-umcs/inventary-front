@@ -1,8 +1,8 @@
-import React, {Suspense, useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
-import IItem from "../../types/item.type";
-import ApiClient from "../../helpers/api-client";
 import {CircularProgress, Container, Paper, Typography} from '@material-ui/core';
+import React, {Suspense, useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
+import ApiClient from '../../helpers/api-client';
+import ItemType from '../../types/item.type';
 
 const ItemPage = () => {
     return (
@@ -18,18 +18,18 @@ const ItemPage = () => {
 
 const ItemDisplay = () => {
     const {id} = useParams();
-    const [item, setItem] = useState<IItem>();
+    const [item, setItem] = useState<ItemType>();
 
     useEffect(() => {
-        if (id == undefined) {
+        if (id === undefined) {
             window.location.href = '/';
             return;
         }
-        ApiClient.getItemById(Number.parseInt(id)).then(res => {
+        ApiClient.getItemById(Number.parseInt(id, 10)).then(res => {
             setItem(res.data);
             console.log(res);
         });
-    })
+    });
 
     return (
         <>
@@ -38,6 +38,6 @@ const ItemDisplay = () => {
             </Paper>
         </>
     );
-}
+};
 
 export default ItemPage;

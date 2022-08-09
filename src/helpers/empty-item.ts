@@ -1,13 +1,13 @@
-import IItem from "../types/item.type";
+import ItemType from '../types/item.type';
 
-const emptyItem: IItem = {
+const emptyItem: ItemType = {
     id: -1,
     name: '',
     category: '',
     value: '',
     warehouse: '',
     description: '',
-    keywords: []
+    keywords: [],
 };
 
 export default emptyItem;
