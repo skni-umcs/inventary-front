@@ -41,12 +41,12 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "tslint -c tslint.json src/**/*.{ts,tsx} --fix",
+    "lint-fix": "tslint -c tslint.json src/**/*.{ts,tsx} --fix",
     "lint-code": "tslint --project tsconfig.json --config tslint.json",
     "prepare": "husky install"
   },
   "lint-staged": {
-    "*.ts?(x)": "npm run lint-code"
+    "*.ts?(x)": "npm run lint-fix"
   },
   "browserslist": {
     "production": [

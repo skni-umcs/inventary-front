@@ -10,6 +10,7 @@ import {toast} from 'react-toastify';
 import ApiClient from '../../helpers/api-client';
 import emptyItem from '../../helpers/empty-item';
 import ItemType from '../../types/item.type';
+import TokenType from '../../types/token.type';
 import ItemModal from '../ItemModal';
 import MenuDrawer from '../MenuDrawer';
 import TokenModal from '../TokenModal';
@@ -39,10 +40,11 @@ const ItemsTable = (props: ItemTableProps) => {
     const [tokenModalVisible, setTokenModalVisible] = useState(false);
     const [addTokenDialogVisible, setAddTokenDialogVisible] = useState(false);
 
-
     const [selectedItem, setSelectedItems] = useState<GridSelectionModel>([]);
 
     const [newItem, setNewItem] = useState<ItemType>(emptyItem);
+
+    const [tokens, setTokens] = useState<TokenType[]>([]);
 
 
     const cols: GridColDef[] = [
@@ -109,6 +111,30 @@ const ItemsTable = (props: ItemTableProps) => {
         });
     };
 
+    const getTokens = () => {
+        ApiClient.getMyTokens()
+            .then(res => {
+                const output = [];
+                try {
+                    for (const item of res.tokens) {
+                        const tempToken = {
+                            id: item.id,
+                            name: item.name,
+                            token: item.token,
+                            usage: item.users_registered.length,
+                            quota: item.users_limit,
+                        };
+                        output.push(tempToken);
+                    }
+                } catch (e) {
+                    console.error(e);
+                }
+                setTokens(output);
+            }).catch(err => {
+            console.error(err);
+        });
+    };
+
     const moveToTop = (elementId: string) => {
         const elementA = elementId === 'item-modal-container' ? document.getElementById('item-modal-container') : document.getElementById('token-modal-container');
         const elementB = elementId === 'item-modal-container' ? document.getElementById('token-modal-container') : document.getElementById('item-modal-container');
@@ -163,13 +189,15 @@ const ItemsTable = (props: ItemTableProps) => {
 
             <EditCategoriesDialog closeDialog={closeEditCategoriesDialog} dialogVisible={editCategoriesVisible}/>
 
-            <AddTokenDialog closeDialog={closeAddTokenDialog} dialogVisible={addTokenDialogVisible}/>
+            <AddTokenDialog closeDialog={closeAddTokenDialog} dialogVisible={addTokenDialogVisible}
+                            refresh={getTokens}/>
 
             <ItemModal visible={itemModalVisible} itemId={itemId} closeModal={closeItemModal}
                        categories={props.categories} warehouses={props.warehouses} onClick={moveToTop}/>
 
             <TokenModal visible={tokenModalVisible} closeModal={closeTokenModal}
-                        openAddTokenDialog={openAddTokenDialog} onClick={moveToTop}/>
+                        openAddTokenDialog={openAddTokenDialog} onClick={moveToTop}
+                        tokens={tokens} refresh={getTokens}/>
             <DataGrid
                 rows={items}
                 columns={cols}
