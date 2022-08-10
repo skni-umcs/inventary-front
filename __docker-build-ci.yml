@@ -1,0 +1,13 @@
+build:
+  image: docker:20.10.16
+  stage: build
+  tags:
+    - inventaryfront
+  services:
+    - name: docker:20.10.16
+  variables:
+    IMAGE_TAG: inventaryfront:$CI_COMMIT_REF_SLUG
+  script:
+    - echo "$CI_DEPLOY_PASSWORD" | docker login -u $CI_REGISTRY_USER registry.skni.umcs.pl --password-stdin
+    - docker build -t $IMAGE_TAG .
+    - docker push $IMAGE_TAG
