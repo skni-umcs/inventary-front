@@ -8,8 +8,11 @@ deploy:
   before_script:
     - apk add openssh-client
     - eval $(ssh-agent -s)
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' > ~/.ssh/id_rsa
+    - ls -la ~/.ssh
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H 'yuumi.skni.umcs.pl' >> ~/.ssh/known_hosts
   script:
-    - ssh -P 22760 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -i ~/.ssh/id_rsa "cd inventaryfront; git pull && docker rm inventaryfront && docker build . -t inventaryfront && docker run -p 3001:80 -d --name inventaryfront inventaryfront"
+    - ssh -P 22760 -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa sczajka@yuumi.skni.umcs.pl "cd inventaryfront; git pull && docker rm inventaryfront && docker build . -t inventaryfront && docker run -p 3001:80 -d --name inventaryfront inventaryfront"
