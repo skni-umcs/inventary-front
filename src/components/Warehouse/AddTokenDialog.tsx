@@ -14,22 +14,20 @@ import {
 } from '@material-ui/core';
 import React, {useState} from 'react';
 import ApiClient from '../../helpers/api-client';
-import ItemType from '../../types/item.type';
 import TokenType from '../../types/token.type';
-import useStyles from '../ItemModal/itemModal.style';
-import TagInput from '../ItemModal/TagInput';
 import DialogType from './dialog.type';
 
 
 interface AddTokenDialogProps extends DialogType {
     closeDialog: (refresh?: boolean) => void;
+    refresh: () => void;
 }
 
 const AddTokenDialog = (props: AddTokenDialogProps) => {
 
     const [token, setToken] = useState<TokenType>({
         name: '',
-        quota: 0,
+        quota: 1,
     });
 
     const addToken = () => {
@@ -38,6 +36,9 @@ const AddTokenDialog = (props: AddTokenDialogProps) => {
                 if (res.message === 'OK') {
                     props.closeDialog(true);
                 }
+            })
+            .finally(() => {
+                props.refresh();
             });
     };
 

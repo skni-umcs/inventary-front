@@ -5,8 +5,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import EnhancedEncryptionIcon from '@material-ui/icons/EnhancedEncryption';
 import LockIcon from '@material-ui/icons/Lock';
+import PersonIcon from '@material-ui/icons/Person';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import React, {useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
@@ -18,15 +20,23 @@ const RegisterPage = () => {
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [token, setToken] = useState('');
     const [tokenDisabled, setTokenDisabled] = useState(false);
+
+    const [bg, setBg] = useState('');
 
     const register = () => {
         const user: UserType = {
             username,
             password,
             token,
+            email,
+            firstname: firstName,
+            lastname: lastName,
         };
         if (password !== confirmPassword) {
             toast.error('Wprowadzona hasła nie zgadzają się');
@@ -44,7 +54,6 @@ const RegisterPage = () => {
         });
     };
 
-    const bg = szopy[Math.floor(Math.random() * szopy.length)];
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -54,6 +63,7 @@ const RegisterPage = () => {
             setTokenDisabled(true);
             window.history.replaceState(null, '', '/register');
         }
+        setBg(szopy[Math.floor(Math.random() * szopy.length)]);
     }, []);
 
     return (
@@ -83,7 +93,39 @@ const RegisterPage = () => {
                                                onChange={e => setUsername(e.target.value)}
                                                fullWidth={true}/>
                                 </Box>
+                                <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
+                                    <AlternateEmailIcon style={{color: 'grey', marginRight: '8px'}}/>
+                                    <TextField id={'email-input'}
+                                               label={'Adres email'}
+                                               variant={'standard'}
+                                               type={'email'}
+                                               value={email}
+                                               onChange={e => setEmail(e.target.value)}
+                                               fullWidth={true}/>
+                                </Box>
+                                <Box sx={{display: 'flex', alignItems: 'flex-end',
+                                    justifyContent: 'space-between', flexDirection: 'row'}}>
+                                    <Box sx={{display: 'flex', alignItems: 'flex-end',
+                                        marginRight: '4px'}}>
+                                        <PersonIcon style={{color: 'grey', marginRight: '8px'}}/>
+                                        <TextField id={'firstName-input'}
+                                                   label={'Imię'}
+                                                   variant={'standard'}
+                                                   type={'text'}
+                                                   value={firstName}
+                                                   onChange={e => setFirstName(e.target.value)}/>
+                                    </Box>
 
+                                    <Box sx={{display: 'flex', alignItems: 'flex-end',
+                                        marginLeft: '4px'}}>
+                                        <TextField id={'lastName-input'}
+                                                   label={'Nazwisko'}
+                                                   variant={'standard'}
+                                                   type={'text'}
+                                                   value={lastName}
+                                                   onChange={e => setLastName(e.target.value)}/>
+                                    </Box>
+                                </Box>
                                 <Box sx={{display: 'flex', alignItems: 'flex-end'}}>
                                     <LockIcon style={{color: 'grey', marginRight: '8px'}}/>
                                     <TextField id={'password-input'}

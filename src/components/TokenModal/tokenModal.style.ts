@@ -32,6 +32,19 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: '3px',
             paddingLeft: '16px',
         },
+        tableContainer: {
+            width: '100%',
+            height: 'auto',
+        },
+        spacer: {
+            marginTop: '0.5rem',
+            marginLeft: '0.5rem',
+        },
+        utilityBar: {
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+        },
     }),
 );
 
