@@ -5,9 +5,9 @@ import ItemType from '../types/item.type';
 import UserType from '../types/user.type';
 import AuthClient from './auth-client';
 
-const apiUrl = process.env.REACT_APP_ENV === 'developement'
-                ? process.env.REACT_APP_DEV_API_URL
-                : process.env.REACT_APP_PROD_API_URL;
+const apiUrl = import.meta.env.REACT_APP_ENV === 'developement'
+                ? import.meta.env.REACT_APP_DEV_API_URL
+                : import.meta.env.REACT_APP_PROD_API_URL;
 
 const getConfig = (tokenType?: string) => {
     if (!AuthClient.checkValid()) {
