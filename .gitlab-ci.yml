@@ -14,4 +14,4 @@ deploy:
     - chmod 600 ~/.ssh/id_rsa
     - ssh-add ~/.ssh/id_rsa
   script:
-    - ssh sczajka@yuumi.skni.umcs.pl -p 22760 -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa  "cd inventaryfront; git pull && docker rm inventaryfront; docker build . -t inventaryfront && docker run -p 3001:80 -d --name inventaryfront inventaryfront"
+    - ssh sczajka@yuumi.skni.umcs.pl -p 22760 -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa  "cd inventaryfront; git pull && docker stop inventaryfront; docker rm inventaryfront; docker rmi inventaryfront; docker build . -t inventaryfront && docker run -p 3001:80 -d --name inventaryfront inventaryfront"
