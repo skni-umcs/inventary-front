@@ -5,11 +5,10 @@ import CloseIcon from '@material-ui/icons/Close';
 import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
 import StoreIcon from '@material-ui/icons/Store';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
+import { Parser } from 'json2csv';
 import React from 'react';
 import ApiClient from '../../helpers/api-client';
-
-import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import {Parser} from 'json2csv';
 import ItemType from '../../types/item.type';
 
 interface MenuDrawerProps {
