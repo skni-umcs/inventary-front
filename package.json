@@ -22,6 +22,7 @@
     "@types/react-router-dom": "5",
     "@vitejs/plugin-react": "^2.0.0",
     "axios": "^0.26.1",
+    "json2csv": "^5.0.7",
     "jsonexport": "^3.2.0",
     "logrocket": "^3.0.1",
     "logrocket-react": "^5.0.1",
@@ -33,9 +34,11 @@
     "typescript": "^4.6.2",
     "vite": "^3.0.5",
     "vite-plugin-env-compatible": "^1.1.1",
+    "vite-plugin-environment": "^1.1.2",
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "buffer": "^6.0.3",
     "husky": "^8.0.0",
     "lint-staged": "^13.0.3",
     "tslint": "^6.1.3",

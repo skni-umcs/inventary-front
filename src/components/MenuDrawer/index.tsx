@@ -6,7 +6,7 @@ import DeleteSweepIcon from '@material-ui/icons/DeleteSweep';
 import ImportExportIcon from '@material-ui/icons/ImportExport';
 import StoreIcon from '@material-ui/icons/Store';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
-import jsonexport from 'jsonexport';
+import { Parser } from 'json2csv';
 import React from 'react';
 import ApiClient from '../../helpers/api-client';
 import ItemType from '../../types/item.type';
@@ -41,23 +41,24 @@ const exportAll = (type: string) => {
                 {label: 'Opis', value: 'description'},
                 {label: 'Słowa kluczowe', value: 'keywords'},
             ];
-            jsonexport(res, (err: any, csv: string) => {
-                if (err) {
-                    console.log(err);
-                    return;
-                }
-
-                // replace first row values with labels from fields array
-                const csvRows = csv.split('\n');
-                csvRows[0] = fields.map(field => field.label).join(',');
-                const csvWithLabels = csvRows.join('\n');
-                const blob = new Blob([csvWithLabels], {type: 'text/csv'});
-                const url = window.URL.createObjectURL(blob);
-                const link = document.createElement('a');
-                link.href = url;
-                link.download = 'items.csv';
-                link.click();
-            });
+            const json2csvParser = new Parser({fields});
+            let csv = json2csvParser.parse(res);
+            csv = csv.replace(/"/g, '');
+            const rows = csv.split('\n');
+            let finalCsv = rows[0].replace(/,/g, ';') + '\n';
+            for (let i = 1; i < rows.length; i++) {
+                let row = rows[i];
+                const tags = row.split('\[')[1].split('\]')[0].split(',');
+                row = row.split('[')[0].replace(/,/g, ';');
+                row = row.concat(tags.join(','));
+                finalCsv = finalCsv.concat(row + '\n');
+            }
+            const blob = new Blob([finalCsv], {type: 'text/csv'});
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'items.csv';
+            link.click();
         })
         .catch(err => {
             console.error(err);
@@ -82,7 +83,7 @@ const importData = () => {
                 const rows = data.split('\n');
                 const items: ItemType[] = [];
                 for (let i = 1; i < rows.length; i++) {
-                    const row = rows[i].split(',');
+                    const row = rows[i].split(';');
                     if (row.length < 5) {
                         continue;
                     }
@@ -93,7 +94,7 @@ const importData = () => {
                         value: row.shift(),
                         warehouse: row.shift(),
                         description: row.shift(),
-                        keywords: row.shift().split(';'),
+                        keywords: row.shift().split(','),
                     };
                     items.push(item);
                 }

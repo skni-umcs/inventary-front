@@ -1,15 +1,17 @@
 import { defineConfig } from "vite";
 import react from '@vitejs/plugin-react';
 import envCompatible from 'vite-plugin-env-compatible';
-import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill'
-import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill'
-import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
+import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
+import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
+import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
+import env from 'vite-plugin-env-compatible';
 
 export default defineConfig({
     envPrefix: 'REACT_APP_',
     plugins: [
         react(),
         envCompatible(),
+        env(),
     ],
     alias: {
         util: 'rollup-plugin-node-polyfills/polyfills/util',
@@ -42,7 +44,9 @@ export default defineConfig({
             vm: 'rollup-plugin-node-polyfills/polyfills/vm',
             zlib: 'rollup-plugin-node-polyfills/polyfills/zlib',
             tty: 'rollup-plugin-node-polyfills/polyfills/tty',
-            domain: 'rollup-plugin-node-polyfills/polyfills/domain'
+            domain: 'rollup-plugin-node-polyfills/polyfills/domain',
+            buffer: 'rollup-plugin-node-polyfills/polyfills/buffer-es6',
+            process: 'rollup-plugin-node-polyfills/polyfills/process-es6'
     },
     optimizeDeps: {
         esbuildOptions: {
@@ -65,4 +69,9 @@ export default defineConfig({
             ],
         },
     },
+    define: {
+        'process.env.NODE_ENV': '"production"',
+        'process.env.DEBUG': 'false',
+        'process.env.GRID_EXPERIMENTAL_ENABLED': 'false',
+    }
 });
