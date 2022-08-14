@@ -16,9 +16,12 @@ import FileCopyIcon from '@material-ui/icons/FileCopy';
 import RefreshIcon from '@material-ui/icons/Refresh';
 import React, {useEffect, useState} from 'react';
 import Draggable from 'react-draggable';
+import {toast} from 'react-toastify';
 import ApiClient from '../../helpers/api-client';
 import TokenType from '../../types/token.type';
+import HiddenCell from './hiddenCell';
 import useStyles from './tokenModal.style';
+import info = toast.info;
 
 interface TokenModalProps {
     visible: boolean;
@@ -36,9 +39,18 @@ interface Opts {
 
 
 const getActionsForToken = (opts: Opts) => {
+    const copyFunction = () => {
+        if (window.navigator && window.navigator.clipboard) {
+            window.navigator.clipboard.writeText(`${window.location.href}register?token=${opts.token}`);
+            info('Skopiowano link do schowka');
+            return;
+        }
+        alert(`${window.location.href}register?token=${opts.token}`);
+    };
+
     return (
         <>
-            <IconButton onClick={() => alert(`http://yuumi.skni.umcs.pl:3001/register?token=${opts.token}`)}>
+            <IconButton onClick={copyFunction}>
                 <FileCopyIcon/>
             </IconButton>
             <IconButton onClick={() => console.log(`DELETE ${opts.id}`)}>
@@ -101,7 +113,9 @@ const TokenModal = (props: TokenModalProps) => {
                             return (
                                 <TableRow key={token.id}>
                                     <TableCell className={classes.tableCell}>{token.name}</TableCell>
-                                    <TableCell className={classes.tableCell}>{token.token}</TableCell>
+                                    <HiddenCell className={classes.tableCell} insideAlign={classes.hiddenCell}>
+                                        {token.token}
+                                    </HiddenCell>
                                     <TableCell className={classes.tableCell}>{token.usage} / {token.quota}</TableCell>
                                     <TableCell className={classes.tableCell}>{getActionsForToken(token)}</TableCell>
                                 </TableRow>

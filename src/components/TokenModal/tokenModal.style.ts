@@ -32,6 +32,13 @@ const useStyles = makeStyles((theme: Theme) =>
             padding: '3px',
             paddingLeft: '16px',
         },
+        hiddenCell: {
+            width: '75%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexDirection: 'row',
+        },
         tableContainer: {
             width: '100%',
             height: 'auto',
