@@ -1,9 +1,10 @@
 import {
     DataGrid,
     GridColDef,
+    GridComparatorFn,
     GridRowParams,
     GridSelectionModel,
-    GridValueFormatterParams
+    GridValueFormatterParams,
 } from '@material-ui/data-grid';
 import React, {useEffect, useState} from 'react';
 import {toast} from 'react-toastify';
@@ -46,6 +47,14 @@ const ItemsTable = (props: ItemTableProps) => {
 
     const [tokens, setTokens] = useState<TokenType[]>([]);
 
+    const numberComparator: GridComparatorFn = (v1, v2, param1, param2) => {
+        if (!v1 || !v2) { return 0; }
+        const n1 = parseFloat(v1.toString());
+        const n2 = parseFloat(v2.toString());
+
+        return n1 - n2;
+    };
+
 
     const cols: GridColDef[] = [
         {field: 'name', headerName: 'Nazwa', width: 350},
@@ -53,7 +62,9 @@ const ItemsTable = (props: ItemTableProps) => {
         {field: 'value', headerName: 'Wartość', width: 150,
             valueFormatter: (params) => {
             return `${(params.value as number) / 100}zł`;
-        }},
+            },
+            sortComparator: numberComparator,
+        },
         {field: 'warehouse', headerName: 'Magazyn', width: 250},
     ];
 

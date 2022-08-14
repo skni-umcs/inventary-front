@@ -70,8 +70,8 @@ export default defineConfig({
         },
     },
     define: {
-        'process.env.NODE_ENV': '"production"',
+        'process.env.NODE_ENV': `"${process.env.ENV}"`,
         'process.env.DEBUG': 'false',
         'process.env.GRID_EXPERIMENTAL_ENABLED': 'false',
-    }
+    },
 });
