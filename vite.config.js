@@ -67,6 +67,12 @@ export default defineConfig({
             plugins: [
                 rollupNodePolyFill(),
             ],
+            output: {
+                manualChunks: {
+                    '@material-ui/core': ['@material-ui/core'],
+                    '@material-ui/icons': ['@material-ui/icons'],
+                },
+            },
         },
     },
     define: {

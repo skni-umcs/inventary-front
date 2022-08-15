@@ -43,15 +43,19 @@ const RegisterPage = () => {
             toast.error('Wprowadzone hasła nie zgadzają się');
             return;
         }
+        if (password.length < 8) {
+            toast.warning('Hasło musi mieć minimum 8 znaków');
+            return;
+        }
         ApiClient.register(user).then((res: string) => {
-            if (res.toLowerCase() === 'unauthorized') {
-                return;
-            } else if (res.toLowerCase() === 'ok') {
+            if (res.toLowerCase() === 'ok') {
                 toast.success('Zarejestrowano!');
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 1000);
+            } else {
+                toast.warning('Wystąpił nieoczekiwany błąd');
             }
-            setTimeout(() => {
-                window.location.href = '/';
-            }, 1000);
         });
     };
 
