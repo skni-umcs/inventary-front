@@ -33,13 +33,14 @@ const RegisterPage = () => {
         const user: UserType = {
             username,
             password,
+            password_repeat: confirmPassword,
             token,
             email,
             firstname: firstName,
             lastname: lastName,
         };
         if (password !== confirmPassword) {
-            toast.error('Wprowadzona hasła nie zgadzają się');
+            toast.error('Wprowadzone hasła nie zgadzają się');
             return;
         }
         ApiClient.register(user).then((res: string) => {
