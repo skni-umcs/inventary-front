@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {omit} from 'lodash';
 import LogRocket from 'logrocket';
 import {toast} from 'react-toastify';
 import ItemType from '../types/item.type';
@@ -180,7 +181,7 @@ export default {
             .catch(checkForErr);
     },
     register(user: UserType) {
-        return axios.post(`${apiUrl}/register`, user)
+        return axios.post(`${apiUrl}/register?token=${user.token}`, omit(user, 'token'))
             .then(res => {
                 return res.data;
             })
