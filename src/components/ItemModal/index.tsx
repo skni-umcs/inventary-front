@@ -84,9 +84,6 @@ const ItemModal = (props: ItemModalType) => {
                 </Box>
                 <Box className={classes.mainContainer}>
                     <Box className={classes.row}>
-                        <Typography className={classes.centered} variant={'h5'}>Edytuj informacje</Typography>
-                    </Box>
-                    <Box className={classes.row}>
                         <Box className={classes.infoContainer}>
                             <TextField
                                 className={classes.textField}
@@ -141,7 +138,7 @@ const ItemModal = (props: ItemModalType) => {
                     <Box className={classes.row} style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        width: '90%',
+                        width: '100%',
                         alignItems: 'center',
                         justifyItems: 'center',
                         placeItems: 'flex-start',

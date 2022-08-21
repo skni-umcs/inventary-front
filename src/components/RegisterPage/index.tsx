@@ -39,11 +39,11 @@ const RegisterPage = () => {
             firstname: firstName,
             lastname: lastName,
         };
-        if (password !== confirmPassword) {
+        if (user.password !== user.password_repeat) {
             toast.error('Wprowadzone hasła nie zgadzają się');
             return;
         }
-        if (password.length < 8) {
+        if (!user.password || user.password.length < 8) {
             toast.warning('Hasło musi mieć minimum 8 znaków');
             return;
         }
@@ -52,10 +52,13 @@ const RegisterPage = () => {
                 toast.success('Zarejestrowano!');
                 setTimeout(() => {
                     window.location.href = '/';
-                }, 1000);
+                }, 4000);
             } else {
                 toast.warning('Wystąpił nieoczekiwany błąd');
             }
+        }).catch(err => {
+            toast.error('Wystąpił nieoczekiwany błąd');
+            console.log(err);
         });
     };
 
@@ -173,7 +176,6 @@ const RegisterPage = () => {
                                 <Button size='small'
                                         color='primary'
                                         variant={'contained'}
-                                        type={'submit'}
                                         onClick={register}>
                                     Zarejestruj
                                 </Button>

@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme: Theme) =>
             backgroundColor: '#fff',
             border: '1px solid #ccc',
             overflowY: 'auto',
+            justifyContent: 'space-between',
         },
         topBar: {
             display: 'flex',
@@ -38,11 +39,12 @@ const useStyles = makeStyles((theme: Theme) =>
             marginBottom: '5%',
         },
         footerRow: {
-            width: '90%',
+            width: '100%',
             display: 'flex',
             justifyContent: 'flex-end',
             alignItems: 'flex-end',
-            padding: '3%',
+            paddingTop: '3%',
+            marginRight: '4%',
         },
         infoContainer: {
             width: '40%',

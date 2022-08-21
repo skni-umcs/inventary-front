@@ -59,10 +59,12 @@ function App() {
 
     const setupRefreshToken = () => {
         setInterval(() => {
-            ApiClient.refreshToken()
-                .then(res => {
-                    console.log('Token refreshed');
-                });
+            if (AuthClient.checkValid()) {
+                ApiClient.refreshToken()
+                    .then(res => {
+                        console.log('Token refreshed');
+                    });
+            }
         }, 1000 * 60 * 5);
     };
 

@@ -89,7 +89,6 @@ const LoginPage = () => {
                                 <Button size='small'
                                         color='primary'
                                         variant={'contained'}
-                                        type={'submit'}
                                         onClick={login}>
                                     Zaloguj
                                 </Button>
