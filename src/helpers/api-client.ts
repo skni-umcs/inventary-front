@@ -6,7 +6,7 @@ import ItemType from '../types/item.type';
 import UserType from '../types/user.type';
 import AuthClient from './auth-client';
 
-const apiUrl = import.meta.env.REACT_APP_ENV === 'developement'
+const apiUrl = import.meta.env.REACT_APP_ENV === 'development'
                 ? import.meta.env.REACT_APP_DEV_API_URL
                 : import.meta.env.REACT_APP_PROD_API_URL;
 
