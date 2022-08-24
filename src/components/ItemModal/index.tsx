@@ -2,22 +2,26 @@ import {
     Box,
     Button,
     Container,
-    FormControl,
+    FormControl, FormControlLabel,
     IconButton,
     InputLabel,
     MenuItem,
     Paper,
-    Select,
+    Select, Switch,
     TextField,
     Typography
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
+import {ContentState, convertToRaw, EditorState} from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import React, {useEffect, useState} from 'react';
 import Draggable from 'react-draggable';
 import {toast} from 'react-toastify';
 import ApiClient from '../../helpers/api-client';
 import emptyItem from '../../helpers/empty-item';
 import ItemType from '../../types/item.type';
+import DescriptionEditor from '../DescriptionEditor';
 import useStyles from './itemModal.style';
 import {ItemModalType} from './itemModal.type';
 import TagInput from './TagInput';
@@ -27,6 +31,9 @@ const ItemModal = (props: ItemModalType) => {
     const [item, setItem] = useState<ItemType>(emptyItem);
     const [tempValue, setTempValue] = useState<number>(0);
     const [itemName, setItemName] = useState('');
+    const [itemDescription, setItemDescription] = useState(() => EditorState.createEmpty());
+
+    const [isEditing, setIsEditing] = useState(false);
 
     const setItemValue = (property: string, value: string | string[]) => {
         setItem(prev => {
@@ -45,6 +52,12 @@ const ItemModal = (props: ItemModalType) => {
                     setItem(res);
                     setItemName(res.name);
                     setTempValue(res.value / 100);
+                    const contentBlock = htmlToDraft(res.description);
+                    if (contentBlock) {
+                        const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+                        const editorState = EditorState.createWithContent(contentState);
+                        setItemDescription(editorState);
+                    }
                 } catch (e) {
                     console.error(e);
                 }
@@ -57,6 +70,7 @@ const ItemModal = (props: ItemModalType) => {
     const saveData = () => {
         const data = item;
         data.value = (tempValue * 100).toString();
+        data.description = draftToHtml(convertToRaw(itemDescription.getCurrentContent()));
         ApiClient.updateItem(data)
             .then(res => {
                 if (res.message === 'success') {
@@ -67,6 +81,10 @@ const ItemModal = (props: ItemModalType) => {
             .catch(err => {
                 console.error(err);
             });
+    };
+
+    const setEditorState = (editorState: EditorState) => {
+        setItemDescription(editorState);
     };
 
     const classes = useStyles();
@@ -138,23 +156,16 @@ const ItemModal = (props: ItemModalType) => {
                     <Box className={classes.row} style={{
                         display: 'flex',
                         flexDirection: 'column',
-                        width: '100%',
+                        width: '96%',
                         alignItems: 'center',
                         justifyItems: 'center',
                         placeItems: 'flex-start',
                     }}>
-                        <TextField
-                            className={classes.textField}
-                            label={'Opis'}
-                            variant={'standard'}
-                            type={'text'}
-                            value={item.description}
-                            multiline={true}
-                            maxRows={4}
-                            minRows={4}
-                            inputProps={{maxLength: 250}}
-                            style={{width: '96%', margin: '0 2% 0 2%'}} // Bardzo dziwne rozwiązanie, ale działa
-                            onChange={e => setItemValue('description', e.target.value)}/>
+                        <Box style={{width: '100%', float: 'right'}}>
+                            <FormControlLabel control={<Switch onClick={() => setIsEditing(!isEditing)}/>} label='Edytuj' />
+                        </Box>
+                        <DescriptionEditor editorState={itemDescription} isEditing={isEditing}
+                                           setEditorState={setEditorState}/>
                     </Box>
                     <Box className={classes.footerRow}>
                         <Button variant={'contained'} color={'secondary'} onClick={props.closeModal}>Odrzuć</Button>
