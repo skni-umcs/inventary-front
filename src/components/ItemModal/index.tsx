@@ -161,7 +161,12 @@ const ItemModal = (props: ItemModalType) => {
                         justifyItems: 'center',
                         placeItems: 'flex-start',
                     }}>
-                        <Box style={{width: '100%', float: 'right'}}>
+                        <Box style={{
+                            width: '100%',
+                            display: 'flex',
+                            justifyContent: 'flex-end',
+                            alignItems: 'flex-end',
+                        }}>
                             <FormControlLabel control={<Switch onClick={() => setIsEditing(!isEditing)}/>} label='Edytuj' />
                         </Box>
                         <DescriptionEditor editorState={itemDescription} isEditing={isEditing}
