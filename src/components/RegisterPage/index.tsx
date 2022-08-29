@@ -51,7 +51,7 @@ const RegisterPage = () => {
             if (res.toLowerCase() === 'ok') {
                 toast.success('Zarejestrowano!');
                 setTimeout(() => {
-                    window.location.href = '/';
+                    window.location.href = 'inventaryapp';
                 }, 4000);
             } else {
                 toast.warning('Wystąpił nieoczekiwany błąd');

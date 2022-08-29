@@ -22,7 +22,7 @@ const ItemDisplay = () => {
 
     useEffect(() => {
         if (id === undefined) {
-            window.location.href = '/';
+            window.location.href = '/inventaryapp';
             return;
         }
         ApiClient.getItemById(Number.parseInt(id, 10)).then(res => {

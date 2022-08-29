@@ -26,7 +26,7 @@ const getConfig = (tokenType?: string) => {
 const checkForErr = (err: any) => {
     if (err.response.status === 401) {
         AuthClient.clearJwt();
-        window.location.href = '/';
+        window.location.href = 'inventaryapp';
     } else if (err.response.status === 422) {
         // pass
     } else {
@@ -190,7 +190,7 @@ export default {
     logout() {
         AuthClient.clearJwt();
         AuthClient.clearRefreshToken();
-        window.location.href = '/';
+        window.location.href = 'inventaryapp';
     },
     getCurrentUser() {
         return axios.get(`${apiUrl}/user`, getConfig())
