@@ -83,14 +83,14 @@ function App() {
             <Routes>
                 {AuthClient.checkValid() ? (
                     <>
-                        <Route path='/' element={<Body drawerOpen={drawerOpen} drawerOnClose={closeDrawer}
+                        <Route path='/inventaryapp/' element={<Body drawerOpen={drawerOpen} drawerOnClose={closeDrawer}
                                                        warehouses={warehouses} categories={categories}/>}/>
-                        <Route path='/item/:id' element={<ItemPage/>}/>
+                        <Route path='/inventaryapp/item/:id' element={<ItemPage/>}/>
                     </>
                 ) : (
                     <>
-                        <Route path='/' element={<LoginPage/>}/>
-                        <Route path='/register' element={<RegisterPage/>} />
+                        <Route path='/inventaryapp/' element={<LoginPage/>}/>
+                        <Route path='/inventaryapp/register' element={<RegisterPage/>} />
                     </>
                 )}
                 <Route path='*' element={<NotFound/>}/>
