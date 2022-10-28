@@ -47,8 +47,8 @@ const RegisterPage = () => {
             toast.warning('Hasło musi mieć minimum 8 znaków');
             return;
         }
-        ApiClient.register(user).then((res: string) => {
-            if (res.toLowerCase() === 'ok') {
+        ApiClient.register(user).then((res: any) => { // TODO add response type
+            if (res.message.toLowerCase() === 'ok') {
                 toast.success('Zarejestrowano!');
                 setTimeout(() => {
                     window.location.href = 'inventaryapp';
