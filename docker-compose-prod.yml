@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  frontend:
+    container_name: inventaryFront-prod
+    build:
+      context: .
+      target: production
+    env_file:
+      - production.env
+    ports:
+      - "8080:80"
+    restart: always

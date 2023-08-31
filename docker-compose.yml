@@ -1,5 +1,15 @@
+version: "3.8"
+
 services:
-  front:
-    build: .
+  app:
+    container_name: inventaryFront-dev
+    build:
+      context: .
+      target: development
+    env_file:
+      - development.env
+    volumes:
+      - ./public:/app/public
+      - ./src:/app/src
     ports:
-      - "9080:80"
+      - "3000:5173"

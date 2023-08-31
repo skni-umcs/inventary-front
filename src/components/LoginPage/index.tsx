@@ -27,7 +27,7 @@ const LoginPage = () => {
                 toast.success('Zalogowano!');
             }
             setTimeout(() => {
-                window.location.href = '/inventaryapp';
+                window.location.href = '/';
             }, 1000);
         }).catch(err => {
             if (err.toString().toLowerCase().includes('unauthorized') || err.toString().toLowerCase().includes('422')) {

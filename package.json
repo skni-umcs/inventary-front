@@ -56,12 +56,12 @@
     "tslint-react": "^5.0.0"
   },
   "scripts": {
-    "start": "vite",
-    "start:local": "cross-env NODE_ENV=development REACT_APP_ENV=development vite",
-    "start:remote": "cross-env NODE_ENV=production REACT_APP_ENV=production vite",
+    "start": "vite --host 0.0.0.0",
+    "start:local": "cross-env NODE_ENV=development INVENTARY_ENV=development vite",
+    "start:remote": "cross-env NODE_ENV=production INVENTARY_ENV=production vite",
     "build": "vite build",
-    "build:local": "cross-env NODE_ENV=development REACT_APP_ENV=development vite build",
-    "build:remote": "cross-env NODE_ENV=production REACT_APP_ENV=production vite build",
+    "build:local": "cross-env NODE_ENV=development INVENTARY_ENV=development vite build",
+    "build:remote": "cross-env NODE_ENV=production INVENTARY_ENV=production vite build",
     "preview": "vite preview",
     "lint-fix": "tslint -c tslint.json src/**/*.{ts,tsx} --fix",
     "lint-code": "tslint --project tsconfig.json --config tslint.json",

@@ -6,9 +6,7 @@ import ItemType from '../types/item.type';
 import UserType from '../types/user.type';
 import AuthClient from './auth-client';
 
-const apiUrl = import.meta.env.REACT_APP_ENV === 'development'
-                ? import.meta.env.REACT_APP_DEV_API_URL
-                : import.meta.env.REACT_APP_PROD_API_URL;
+const apiUrl = import.meta.env.INVENTARY_API_URL;
 
 const getConfig = (tokenType?: string) => {
     if (!AuthClient.checkValid()) {
@@ -26,7 +24,7 @@ const getConfig = (tokenType?: string) => {
 const checkForErr = (err: any) => {
     if (err.response.status === 401) {
         AuthClient.clearJwt();
-        window.location.href = 'inventaryapp';
+        window.location.href = '/';
     } else if (err.response.status === 422) {
         // pass
     } else {
@@ -190,7 +188,7 @@ export default {
     logout() {
         AuthClient.clearJwt();
         AuthClient.clearRefreshToken();
-        window.location.href = 'inventaryapp';
+        window.location.href = '/';
     },
     getCurrentUser() {
         return axios.get(`${apiUrl}/user`, getConfig())
